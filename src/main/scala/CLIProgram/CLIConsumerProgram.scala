@@ -4,12 +4,6 @@ object CLIConsumerProgram {
   def main(args: Array[String]): Unit = {
     var loop = true
     val kc = new KafkaConsumerProgram()
-   
-    val thread = new Thread {
-        override def run {
-             kc.consumeFromKafka("TopicName") // Insert Topic Name
-        }
-    }
 
     val thread2 = new Thread {
         override def run {
@@ -35,7 +29,6 @@ object CLIConsumerProgram {
                       kc.q4()
                     }
                     case 5 => {
-                      thread.stop()
                       loop = false
                     }
                 }
@@ -47,7 +40,6 @@ object CLIConsumerProgram {
               } while(loop) 
       }
     }
-    thread.start()
     Thread.sleep(10000)
     thread2.start()
   }

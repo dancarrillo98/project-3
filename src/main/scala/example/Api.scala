@@ -9,6 +9,12 @@ import org.apache.http.impl.client.DefaultHttpClient
 
 object Api {
 
+    /**
+      * 
+      *
+      * @param url
+      * @return content
+      */
     def getRestContent(url: String): String = {
 
         val httpClient = new DefaultHttpClient()
@@ -23,48 +29,32 @@ object Api {
                         .mkString("")
                         .replace("{", "")
                         .replace("[", "")
-                        .replace("}]", "")          // hopefully no hierarchies
+                        .replace("}]", "")          // hopefully no hierarchies in the schemas
             inputStream.close           
         }       
 
         httpClient.getConnectionManager().shutdown()
-        return content
+        
+        content
     }
 
    
     final val apiKey = "2f9538c0"
 
-    // Calls to Mockaroo API to generate new table
+    // Calls to Mockaroo API to generate mock data
     
-    def recruiterData(): Array[String] = return getRestContent(s"https://my.api.mockaroo.com/Recruiters?key=$apiKey").split("},")
+    def recruiterData(): Array[String] =    getRestContent(s"https://my.api.mockaroo.com/Recruiters?key=$apiKey").split("},")
 
-    def qlData(): Array[String] = return getRestContent(s"https://my.api.mockaroo.com/Qualified_Lead?key=$apiKey").split("},")
+    def qlData(): Array[String] =           getRestContent(s"https://my.api.mockaroo.com/Qualified_Lead?key=$apiKey").split("},")
 
-    def screenerData(): Array[String] = return getRestContent(s"https://my.api.mockaroo.com/Screeners?key=$apiKey").split("},")
+    def screenerData(): Array[String] =     getRestContent(s"https://my.api.mockaroo.com/Screeners?key=$apiKey").split("},")
 
-    def offerData(): Array[String] = return getRestContent(s"https://my.api.mockaroo.com/Offers?key=$apiKey").split("},")
+    def offerData(): Array[String] =        getRestContent(s"https://my.api.mockaroo.com/Offers?key=$apiKey").split("},")
 
-    def screeningData(): Array[String] = return getRestContent(s"https://my.api.mockaroo.com/Screening?key=$apiKey").split("},")
+    def screeningData(): Array[String] =    getRestContent(s"https://my.api.mockaroo.com/Screening?key=$apiKey").split("},")
 
-    def caData(): Array[String] = return getRestContent(s"https://my.api.mockaroo.com/Contact_Attempts?key=$apiKey").split("},")
+    def caData(): Array[String] =           getRestContent(s"https://my.api.mockaroo.com/Contact_Attempts?key=$apiKey").split("},")
 
-
+    def qlBIGData(): Array[String] =        getRestContent(s"https://my.api.mockaroo.com/Qualified_Lead_Big_Table?key=$apiKey").split("},")
 
 }
-
-
-
-
-
-
-
-
-/* CODE PURGATORIO
-    Arrays of strings for each document
-    val recruiterArr = getRestContent(s"https://my.api.mockaroo.com/Recruiters?key=$apiKey").split("\n")
-    val qlArr = getRestContent(s"https://my.api.mockaroo.com/Qualified_Lead?key=$apiKey").split("\n")
-    val screenerArr = getRestContent(s"https://my.api.mockaroo.com/Screeners?key=$apiKey").split("\n")
-    val offerArr = getRestContent(s"https://my.api.mockaroo.com/Offers?key=$apiKey").split("\n")
-    val sceeningArr = getRestContent(s"https://my.api.mockaroo.com/Screening?key=$apiKey").split("\n")
-    val caArr = getRestContent(s"https://my.api.mockaroo.com/Contact_Attempts?key=$apiKey").split("\n")
-*/

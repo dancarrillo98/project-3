@@ -8,215 +8,301 @@ import example.Api._
 
 object Kafka {
 
-    // Declartion of properties
-    val props: Properties = new Properties();
-    
-    props.put("bootstrap.servers", "sandbox-hdp.hortonworks.com:6667")
-    props.put(
-      "key.serializer",
-      "org.apache.kafka.common.serialization.StringSerializer"
-    )
-    props.put(
-      "value.serializer",
-      "org.apache.kafka.common.serialization.StringSerializer"
-    )
-    props.put("acks", "all")
+  // Declartion of properties
+  val prodProps: Properties = new Properties()
 
-    val producer = new KafkaProducer[String, String](props)
+  prodProps.put("bootstrap.servers", "sandbox-hdp.hortonworks.com:6667")
+  prodProps.put(
+    "key.serializer",
+    "org.apache.kafka.common.serialization.StringSerializer"
+  )
+  prodProps.put(
+    "value.serializer",
+    "org.apache.kafka.common.serialization.StringSerializer"
+  )
+  prodProps.put("acks", "all")
+
+  val producer = new KafkaProducer[String, String](prodProps)
 
 
-    
-    sealed trait msgTypes {
+  
+  /** ADT Sum Type Structure for each API call for each Topic
+    * 
+    * Companion Singleton Object to mainly keep track of ID's -
+    * statically among all the objects
+    *
+    * sealed trait msgTypes 
+    * case class Recruiters extends msgTypes 
+    * case class QualifiedLead extends msgTypes 
+    * case class ContactAttempts extends msgTypes
+    * case class Screening extends msgTypes 
+    * case class Offers extends msgTypes
+    * case class Screeners extends msgTypes
+    * 
+    * 
+    * Names for the Topics:
+        "Recruiters"            
+        "Qualified_Lead"        *
+        "Contact_Attempts"      *
+        "Screening"             *
+        "Offers"                *
+        "Screeners"             
+    */
+  sealed trait msgTypes {
 
-        var msgType = ???
+    protected val topicName = "NaN"
 
-        def loadNewData(): Unit = ???
+    def loadNewData(): Unit = ???
 
-        def messageGenerator(): String = ???
+    def messageGenerator(): String = ???
 
-        def sendMessage(handler: msgTypes): Unit = {
-            val msg = new ProducerRecord[String, String] ( 
-                  handler.topicName,
-                  Recruiters.globalMsgCounter.toString,
-                  handler.messageGenerator()
-            )
+    def sendMessage(): Unit = {
+      val msg = new ProducerRecord[String, String](
+        this.topicName,
+        Recruiters.totalMsgCounter.toString,
+        this.messageGenerator()
+      )
 
-            producer.send(msg)
+      producer.send(msg)
 
-            Recruiters.globalMsgCounter += 1 
-        }
+      Recruiters.totalMsgCounter += 1
     }
 
-    case class Recruiters() extends msgTypes {
+  }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  case class Recruiters() extends msgTypes {
 
-        var msgArr = recruiterData()
-        val topicName = "Recruiters"
+    var msgData = recruiterData()
+    override val topicName = "Recruiters"
 
-        override def loadNewData(): Unit = {
-            msgArr = recruiterData()
-        }
-        
-// why are we += 1 on recruitersMsgCounter but using globalMsgCounter?
-        override def messageGenerator(): String = {
-            Recruiters.recruiterMsgCounter += 1
-            msgArr(Recruiters.globalMsgCounter)
-                .replace("\"id\":1","\"id\":" + Recruiters.recruiterID)
-        }
-
+    override def loadNewData(): Unit = {
+      msgData = recruiterData()
     }
 
-    //For static members
-    object Recruiters {
-        var recruiterID = 0
-        var globalMsgCounter = 0
-        var recruiterMsgCounter = 0
+    override def messageGenerator(): String = {
+        if(Recruiters.msgCounter < msgData.length) {    //guards against out-of-bounds
+            loadNewData()
+            Recruiters.msgCounter = 0
+        }
+        val returnStr = msgData(Recruiters.msgCounter)
+        .replace("\"id\":1", "\"id\":" + Recruiters.recruitersID)
+
+        Recruiters.msgCounter += 1
+
+        returnStr
     }
 
-    case class QualifiedLead() extends msgTypes {
+  }
 
-        var msgArr = qlData()
-        var topicName = "Qualified_Lead"
-        var ql_id = 0
+  object Recruiters {
+    var totalMsgCounter = 0 //Where to put this? Global scope?
+    var recruitersID = 0
+    var msgCounter = 0      //id's might serve the function of counters already ??
+  }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  case class QualifiedLead() extends msgTypes {
 
-        override def loadNewData(): Unit = {
-            msgArr = qlData()
-        }
+    var msgData = qlData()
+    override val topicName = "Qualified_Lead"
 
-        override def messageGenerator(): String = {
-            Recruiters.recruiterMsgCounter += 1
-            msgArr(Recruiters.globalMsgCounter)
-                .replace("\"id\":1","\"id\":" + Recruiters.recruiterID)
-        }
-
+    override def loadNewData(): Unit = {
+      msgData = qlData()
     }
 
-    case class ContactAttempts() extends msgTypes {
-
-        var msgArr = caData()
-        var topicName = "Contact_Attempts"
-
-        override def loadNewData(): Unit = {
-            msgArr = caData()
+    override def messageGenerator(): String = {
+        if(QualifiedLead.msgCounter < msgData.length){
+            loadNewData()
+            QualifiedLead.msgCounter = 0
         }
+        val returnStr = msgData(QualifiedLead.msgCounter)
+        .replace("\"id\":1", "\"id\":" + QualifiedLead.qlID)
 
-        def chanceNextMessage(typ: Int): Int = {
-            val rand = scala.util.Random
-            val nextQ = rand.nextInt(100);
-            if(nextQ > 40) 
-                return typ + 1;
-            return typ
-        }
+      QualifiedLead.msgCounter += 1
 
-        override def messageGenerator(): String = {
-            Recruiters.recruiterMsgCounter += 1
-            msgArr(Recruiters.globalMsgCounter)
-                .replace("\"ql_id\":1","\"ql_id\":" + Recruiters.recruiterID)
-        }
-
+      returnStr
     }
 
-    object ContactAttempts {
-        
+  }
+
+  object QualifiedLead {
+    var qlID = 0
+    var msgCounter = 0
+  }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  case class ContactAttempts() extends msgTypes {
+
+    var msgData = caData()
+    override val topicName = "Contact_Attempts"
+
+    override def loadNewData(): Unit = {
+      msgData = caData()
     }
 
-    case class Screening() extends msgTypes {
-
-        var msgArr = screeningData()
-        var topicName = "Screening"
-
-        override def loadNewData(): Unit = {
-            msgArr = screeningData()
+    override def messageGenerator(): String = {
+        if(ContactAttempts.msgCounter < msgData.length) { 
+            loadNewData()
+            ContactAttempts.msgCounter = 0
         }
+        val returnStr = msgData(ContactAttempts.msgCounter)
+        .replace("\"ql_id\":1", "\"ql_id\":" + QualifiedLead.qlID)
 
-        override def messageGenerator(): String = {
-            Recruiters.recruiterMsgCounter += 1
-            msgArr(Recruiters.globalMsgCounter)
-                .replace("\"ql_id\":1","\"ql_id\":" + Recruiters.recruiterID)
-        }
+      ContactAttempts.msgCounter += 1
 
+      returnStr
     }
 
-    case class Offers() extends msgTypes {
+  }
 
-        var msgArr = offerData()
-        var topicName = "Offers"
+  object ContactAttempts {
+    var caID = 0
+    var msgCounter = 0
+  }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  case class Screening() extends msgTypes {
 
-        override def loadNewData(): Unit = {
-            msgArr = offerData()
-        }
+    var msgData = screeningData()
+    override val topicName = "Screening"
 
-        override def messageGenerator(): String = {
-            Recruiters.recruiterMsgCounter += 1
-            msgArr(Recruiters.globalMsgCounter)
-                .replace("\"ql_id\":1","\"ql_id\":" + Recruiters.recruiterID)
-        }
-
+    override def loadNewData(): Unit = {
+      msgData = screeningData()
     }
 
-    case class Screeners() extends msgTypes {
-
-        var msgArr = screenerData()
-        var topicName = "Screeners"
-
-        override def loadNewData(): Unit = {
-            msgArr = screenerData()
+    override def messageGenerator(): String = {
+        if(Screening.msgCounter < msgData.length) {
+            loadNewData()
+            Screening.msgCounter = 0
         }
+        val returnStr = msgData(Screening.msgCounter)
+        .replace("\"ql_id\":1", "\"ql_id\":" + QualifiedLead.qlID)
 
-        override def messageGenerator(): String = {
-            Recruiters.recruiterMsgCounter += 1
-            msgArr(Recruiters.globalMsgCounter)
-                .replace("\"ql_id\":1","\"ql_id\":" + Recruiters.recruiterID)
+      Screening.msgCounter += 1
+
+      returnStr
+    }
+
+  }
+
+  object Screening {
+    var screeningID = 0
+    var msgCounter = 0
+  }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  case class Offers() extends msgTypes {
+
+    var msgData = offerData()
+    override val topicName = "Offers"
+
+    override def loadNewData(): Unit = {
+      msgData = offerData()
+    }
+
+    override def messageGenerator(): String = {
+        if(Offers.msgCounter < msgData.length) {
+            loadNewData()
+            Offers.msgCounter = 0
         }
+        val returnStr = msgData(Offers.msgCounter)
+        .replace("\"ql_id\":1", "\"ql_id\":" + QualifiedLead.qlID)
+
+      Offers.msgCounter += 1
+
+      returnStr
+    }
+
+  }
+
+  object Offers {
+    var offerID = 0
+    var msgCounter = 0
+  }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  case class Screeners() extends msgTypes {
+
+    var msgData = screenerData()
+    override val topicName = "Screeners"
+
+    override def loadNewData(): Unit = {
+      msgData = screenerData()
+    }
+
+    override def messageGenerator(): String = {
+        if(Screeners.msgCounter < msgData.length)
+            loadNewData()
+            Screeners.msgCounter = 0
+
+        val returnStr = msgData(Screeners.msgCounter)
+        .replace("\"ql_id\":1", "\"ql_id\":" + QualifiedLead.qlID)
+
+      Screeners.msgCounter += 1
+
+      returnStr
+    }
+
+  }
+
+  object Screeners {
+    var screenerID = 0
+    var msgCounter = 0
+  }
+
+  /** @func msgStream
+    * Will output a set of messages to each topic
+    * 
+    * Gets the API data each time the function is called 
+    * 
+    * 
+    * @param numMsg
+    */
+  def msgStream(numMsg: Int): Unit = {
+
+    //val rand = scala.util.Random
+
+    val qlHandler = new QualifiedLead()
+    val caHandler = new ContactAttempts()
+    val screeningHandler = new Screening()
+    val offersHandler = new Offers()
+    val screenersHandler = new Screeners()
+
+    for (i <- 0 until numMsg) {
+      println("We are at : " + Recruiters.totalMsgCounter)
+
+      qlHandler.sendMessage()
+      caHandler.sendMessage()
+      screeningHandler.sendMessage()
+      offersHandler.sendMessage()
+
+      Thread.sleep(1000)
 
     }
-    
-
-    def loopingMsg (numMsg: Int): Unit = {
-
-            //val rand = scala.util.Random
-
-            val qlHandler = new QualifiedLead()
-            val caHandler = new ContactAttempts()
-            val screeningHandler = new Screening()
-            val offersHandler = new Offers()
-            val screenersHandler = new Screeners()
-
-            for(i <- 0 until numMsg) {
-                println("We are at : " + Recruiters.globalMsgCounter)
-
-                val msg = new ProducerRecord[String, String] ( 
-                  qlHandler.topicName,
-                  Recruiters.globalMsgCounter.toString,
-                  qlHandler.messageGenerator()
-                )
-
-                val msg2 = new ProducerRecord[String, String] ( 
-                  caHandler.topicName,
-                  Recruiters.globalMsgCounter.toString,
-                  caHandler.messageGenerator()
-                )
-
-                val msg3 = new ProducerRecord[String, String] ( 
-                  offersHandler.topicName,
-                  Recruiters.globalMsgCounter.toString,
-                  offersHandler.messageGenerator()
-                )
-
-                val msg4 = new ProducerRecord[String, String] ( 
-                  screenersHandler.topicName,
-                  Recruiters.globalMsgCounter.toString,
-                  screenersHandler.messageGenerator()
-                )
-
-                producer.send(msg)
-                producer.send(msg2)
-                producer.send(msg3)
-                producer.send(msg4)
-
-                Recruiters.globalMsgCounter += 1 
-
-                Thread.sleep(2000)
-
-            }
-    }
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+/** Shadow realm jimbo
+  *
+  * // def chanceNextMessage(typ: Int): Int = { // val rand = scala.util.Random
+  * // val nextQ = rand.nextInt(100); // if(nextQ > 40) // return typ + 1; //
+  * return typ // }
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  */

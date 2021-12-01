@@ -1,5 +1,5 @@
 import consumer.PrintConsumer.createPrintConsumer
-import consumer.SparkConsumer.displayQualifiedLeadTotal
+import consumer.SparkConsumer.writeQualifiedLeadTotal
 
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.DataFrame
@@ -12,24 +12,23 @@ import org.apache.spark.sql.Dataset
 object Main  {
     def main(args: Array[String]): Unit = {
 
-        createPrintConsumer()
+        //createPrintConsumer()
         
     // Topic: Screeners
-    // Key: null, Value: {"id": 1,"first_name":"Alisa","last_name":"Figgures"}
+    // Value: {"id": 1,"first_name":"Alisa","last_name":"Figgures"}
     // Topic: Screeners
-    // Key: null, Value: {"id": 2,"first_name":"Oralle","last_name":"Druhan"}
+    // Value: {"id": 2,"first_name":"Oralle","last_name":"Druhan"}
     // Topic: Recruiters
-    // Key: null, Value: {"id": 1,"first_name":"Brantley","last_name":"Pickance"}
+    // Value: {"id": 1,"first_name":"Brantley","last_name":"Pickance"}
     // Topic: Recruiters
-    // Key: null, Value: {"id": 2,"first_name":"Joyous","last_name":"Macconarchy"}
+    // Value: {"id": 2,"first_name":"Joyous","last_name":"Macconarchy"}
     // Topic: Qualified_Lead
-    // Key: null, Value: {"id": 1,"first_name":"Maddy","last_name":"Blees","university":"Fayetteville State University","major":"Business","email":"mblees0@wiley.com","NM"}
+    // Value: {"id": 1,"first_name":"Maddy","last_name":"Blees","university":"Fayetteville State University","major":"Business","email":"mblees0@wiley.com","NM"}
     // Topic: Contact_Attempts
-    // Key: null, Value: {"recruiter_id":3,"ql_id":1,"contact_date":"5/6/2018","start_time":"9:00:00 AM","end_time":"10:25:00 AM","contact_method":"Phone"}
+    // Value: {"recruiter_id":3,"ql_id":1,"contact_date":"5/6/2018","start_time":"9:00:00 AM","end_time":"10:25:00 AM","contact_method":"Phone"}
     // Topic: Contact_Attempts
-    // Key: null, Value: {"screener_id":3,"ql_id":1,"screening_date":"6/17/2018","start_time":"10:00:00 AM","end_time":"11:26:00 AM","screening_type":"Spark","question_number":34,"question_accepted":14}
+    // Value: {"screener_id":3,"ql_id":1,"screening_date":"6/17/2018","start_time":"10:00:00 AM","end_time":"11:26:00 AM","screening_type":"Spark","question_number":34,"question_accepted":14}
     // Topic: Offers
-    // Key: null, Value: {"screener_id":3,"recruiter_id":1,"ql_id":1,"offer_extended_date":"7/8/2018","offer_action_date":"7/15/2018","contact_method":"Email","offer_action":"Accept"}
-
+    // Value: {"screener_id":3,"recruiter_id":1,"ql_id":1,"offer_extended_date":"7/8/2018","offer_action_date":"7/15/2018","contact_method":"Email","offer_action":"Accept"}
     }
 }

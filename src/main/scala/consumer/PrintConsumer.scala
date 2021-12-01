@@ -6,6 +6,10 @@ import org.apache.kafka.clients.consumer.KafkaConsumer
 import scala.collection.JavaConverters._
 
 object PrintConsumer {
+  def main(args: Array[String]): Unit = {
+    createPrintConsumer()
+  }
+
   def createPrintConsumer(): Unit = {
 
     //Define Properties
@@ -43,10 +47,9 @@ object PrintConsumer {
         val records = consumer.poll(10)
         for (record <- records.asScala) {
           println("Topic: " + record.topic())
-          
+
           println(
-            "Key: " + record.key() +
-            ", Value: " + record.value()) + "\n\n"
+            "Value: " + record.value()) + "\n\n"
         }
       }
     } catch {

@@ -9,6 +9,6 @@ object SparkConsumer{
     }
 
     def writeDataFrameToFile(df: DataFrame, filePath: String): Unit = {
-        df.write.mode("append").csv(filePath)
+        df.write.mode("append").json(filePath)
     }
 }

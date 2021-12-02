@@ -16,17 +16,18 @@ import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 
-object SparkConsumer{
-    def main(args: Array[String]): Unit = {
-        val spark = SparkSession.builder.appName("Producer Test").config("spark.master", "local[*]").getOrCreate()
+//object
+class SparkConsumer{
+    // def main(args: Array[String]): Unit = {
+    //     val spark = SparkSession.builder.appName("Producer Test").config("spark.master", "local[*]").getOrCreate()
 
-        import spark.implicits._
+    //     import spark.implicits._
 
-        spark.sparkContext.setLogLevel("ERROR")
+    //     spark.sparkContext.setLogLevel("ERROR")
 
-        writeQualifiedLeadTotal(spark, "Qualified_Lead")
-        spark.streams.awaitAnyTermination()
-    }
+    //     writeQualifiedLeadTotal(spark, "Qualified_Lead")
+    //     //spark.streams.awaitAnyTermination()
+    // }
 
     def writeQualifiedLeadTotal(spark: SparkSession, topicName: String): Unit = {
         //Subscribe to Qualified Lead Topic containing JSON data
@@ -65,6 +66,8 @@ object SparkConsumer{
        .format("console")
        .start()
        
+       scala.io.StdIn.readLine()
+       outputResult.stop()
     }
 
     //Call this function using DF with schema as parameter to store events into JSON file

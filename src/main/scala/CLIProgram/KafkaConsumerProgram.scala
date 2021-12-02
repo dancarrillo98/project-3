@@ -20,12 +20,12 @@ class  KafkaConsumerProgram extends Thread{
 
   spark.sparkContext.setLogLevel("ERROR")
 
-  val topic1 = sparkStream(spark, "test_topic")
-  val topic2 = sparkStream(spark, "recruiters_test")
-  val topic3 = sparkStream(spark, "test_topic")
-  val topic4 = sparkStream(spark, "contactAttempts_test")
-  val topic5 = sparkStream(spark, "test_topic")
-  val topic6 = sparkStream(spark, "test_topic")
+  val topic1 = sparkStream(spark, "Screeners")
+  val topic2 = sparkStream(spark, "Recruiters")
+  val topic3 = sparkStream(spark, "Qualified_Lead")
+  val topic4 = sparkStream(spark, "Contact_Attempts")
+  val topic5 = sparkStream(spark, "Screening")
+  val topic6 = sparkStream(spark, "Offers")
 
 
   def sparkStream(spark: SparkSession, topic: String): DataFrame = {
@@ -95,9 +95,9 @@ class  KafkaConsumerProgram extends Thread{
   def q2(): Unit = {
     val recruiterTopicDF = getValueDF(topic2)
     val contactAttemptsTopicDF =  getValueDF(topic4)
-    println("recruiters topic schema")
+    println("Recruiters topic schema")
     topic2.printSchema()
-    println("contactAttempts topic schema")
+    println("Contact_Attempts topic schema")
     topic4.printSchema()
     // Recruiters Schema
     val recruiterSchema = new StructType()
@@ -114,10 +114,10 @@ class  KafkaConsumerProgram extends Thread{
         .add("contact_method", StringType, false)
     // Extract json Data from topic input in column 'value'
     val recruitersDF = changeSchema(recruiterTopicDF,recruiterSchema)
-    println("recruiters DataFrame schema")
+    println("Recruiters DataFrame schema")
     recruitersDF.printSchema()
     val contactAttemptsDF = changeSchema(contactAttemptsTopicDF,contactAttemptSchema)
-    println("contactAttempts DataFrame schema")
+    println("Contact_Attempts DataFrame schema")
     contactAttemptsDF.printSchema()
     // Query for count of all contact attempts, output to console in complete mode to show all results after data is published to contact attempts topic
     val allCountQuery = contactAttemptsDF.select(count("*") as "Number of Contact Attempts").writeStream

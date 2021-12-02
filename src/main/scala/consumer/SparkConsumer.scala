@@ -29,15 +29,17 @@ class SparkConsumer{
     //     //spark.streams.awaitAnyTermination()
     // }
 
-    def writeQualifiedLeadTotal(spark: SparkSession, topicName: String): Unit = {
-        //Subscribe to Qualified Lead Topic containing JSON data
-       val df = spark.readStream
-       .format("kafka")
-       .option("kafka.bootstrap.servers", "sandbox-hdp.hortonworks.com:6667")
-       .option("subscribe", topicName)
-       .load()
-       .select(col("key").cast("string"), col("value").cast("string"))
-       df.printSchema()
+    def writeQualifiedLeadTotal(spark: SparkSession, df: DataFrame): Unit = {
+    //     //Subscribe to Qualified Lead Topic containing JSON data
+    //    val df = spark.readStream
+    //    .format("kafka")
+    //    .option("kafka.bootstrap.servers", "sandbox-hdp.hortonworks.com:6667")
+    //    .option("subscribe", topicName)
+    //    .load()
+
+    
+        val dfSelect = df.select(col("key").cast("string"), col("value").cast("string"))
+        dfSelect.printSchema()
 
        //Schema for Qualified Leads
        val qualifiedLeadSchema = new StructType()
@@ -50,7 +52,7 @@ class SparkConsumer{
         .add("home_state", StringType, false)
 
         //Apply schema to DF containing JSON data
-       val qualifiedLeadDF = df.withColumn("JSON_data", from_json(col("value"), qualifiedLeadSchema)).select("JSON_data.*")
+       val qualifiedLeadDF = dfSelect.withColumn("JSON_data", from_json(col("value"), qualifiedLeadSchema)).select("JSON_data.*")
        qualifiedLeadDF.printSchema()
 
         //Write topic events to JSON file
@@ -69,6 +71,40 @@ class SparkConsumer{
        scala.io.StdIn.readLine()
        outputResult.stop()
     }
+
+//SAMPLE OUTPUT
+// root
+//  |-- key: string (nullable = true)
+//  |-- value: string (nullable = true)
+
+// root
+//  |-- id: integer (nullable = true)
+//  |-- first_name: string (nullable = true)
+//  |-- last_name: string (nullable = true)
+//  |-- university: string (nullable = true)
+//  |-- major: string (nullable = true)
+//  |-- email: string (nullable = true)
+//  |-- home_state: string (nullable = true)
+
+// Total Number of Qualified Leads
+// -------------------------------------------
+// Batch: 0
+// -------------------------------------------
+// +---------------------+
+// |total_qualified_leads|
+// +---------------------+
+// |                  156|
+// +---------------------+
+
+// -------------------------------------------
+// Batch: 1
+// -------------------------------------------
+// +---------------------+
+// |total_qualified_leads|
+// +---------------------+
+// |                  166|
+// +---------------------+
+
 
     //Call this function using DF with schema as parameter to store events into JSON file
     def writeDataFrameToFile(df: DataFrame): Unit = {

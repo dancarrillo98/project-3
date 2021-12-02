@@ -11,6 +11,7 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.types._
 
+import consumer.SparkConsumer
 
 class  KafkaConsumerProgram extends Thread{  
   val spark:SparkSession = SparkSession.builder()
@@ -25,7 +26,7 @@ class  KafkaConsumerProgram extends Thread{
   val topic3 = sparkStream(spark, "test_topic")
   val topic4 = sparkStream(spark, "contactAttempts_test")
   val topic5 = sparkStream(spark, "test_topic")
-  val topic6 = sparkStream(spark, "test_topic")
+  val topic6 = sparkStream(spark, "Qualified_Lead")
 
 
   def sparkStream(spark: SparkSession, topic: String): DataFrame = {
@@ -89,7 +90,8 @@ class  KafkaConsumerProgram extends Thread{
  */
 
   def q1(): Unit = {
- 
+    val qualifiedLeadSpark = new SparkConsumer()
+    qualifiedLeadSpark.writeQualifiedLeadTotal(spark, topic6)
   }
 
   def q2(): Unit = {

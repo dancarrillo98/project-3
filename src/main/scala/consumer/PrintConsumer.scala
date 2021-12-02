@@ -53,12 +53,13 @@ object PrintConsumer {
     //Output data from Topics to console
     try {
       consumer.subscribe(topics.asJava)
+      print("\u001b[2J")
       while (true) {
         val records = consumer.poll(10)
         for (record <- records.asScala) {
-          println("Topic: " + record.topic() + ", Key: " + record.key() + ", Offet: " + record.offset() + ", Partition: " + record.partition())
+          println("\nTopic: " + record.topic() + ", Key: " + record.key() + ", Offet: " + record.offset() + ", Partition: " + record.partition())
           println("Value: " + record.value())
-          println("------------------------")
+          println("----------------------------------------------------")
         }
       }
     } catch {

@@ -38,6 +38,19 @@ class  KafkaConsumerProgram extends Thread{
     return df
   }
 
+  def getValueDF(topic: DataFrame): DataFrame = {
+      val newDF = topic
+      .selectExpr("CAST(key AS STRING)","CAST(value AS STRING)")
+      .select("key","value")
+      return newDF
+  }
+
+  // Extract json Data from topic input in column 'value'
+  def changeSchema(df: DataFrame, schema: StructType): DataFrame = {
+    val newDF = df.withColumn("jsonData", from_json(col("value"),schema)).select("jsonData.*")
+    return newDF
+  }
+
 /* 
 
     def consumeFromKafka(topic: String)= {
@@ -80,13 +93,8 @@ class  KafkaConsumerProgram extends Thread{
   }
 
   def q2(): Unit = {
-    val recruiterTopicDF = topic2
-      .selectExpr("CAST(key AS STRING)","CAST(value AS STRING)")
-      .select("key","value")
-
-    val contactAttemptsTopicDF = topic4
-      .selectExpr("CAST(key AS STRING)","CAST(value AS STRING)")
-      .select("key","value")
+    val recruiterTopicDF = getValueDF(topic2)
+    val contactAttemptsTopicDF =  getValueDF(topic4)
     println("recruiters topic schema")
     topic2.printSchema()
     println("contactAttempts topic schema")
@@ -105,10 +113,10 @@ class  KafkaConsumerProgram extends Thread{
         .add("end_time", StringType, false)
         .add("contact_method", StringType, false)
     // Extract json Data from topic input in column 'value'
-    val recruitersDF = recruiterTopicDF.withColumn("jsonData", from_json(col("value"),recruiterSchema)).select("jsonData.*")
+    val recruitersDF = changeSchema(recruiterTopicDF,recruiterSchema)
     println("recruiters DataFrame schema")
     recruitersDF.printSchema()
-    val contactAttemptsDF = contactAttemptsTopicDF.withColumn("jsonData", from_json(col("value"),contactAttemptSchema)).select("jsonData.*")
+    val contactAttemptsDF = changeSchema(contactAttemptsTopicDF,contactAttemptSchema)
     println("contactAttempts DataFrame schema")
     contactAttemptsDF.printSchema()
     // Query for count of all contact attempts, output to console in complete mode to show all results after data is published to contact attempts topic

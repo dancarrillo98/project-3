@@ -87,8 +87,9 @@ class  KafkaConsumerProgram extends Thread{
     val contactAttemptsTopicDF = topic4
       .selectExpr("CAST(key AS STRING)","CAST(value AS STRING)")
       .select("key","value")
-    
+    println("recruiters topic schema")
     topic2.printSchema()
+    println("contactAttempts topic schema")
     topic4.printSchema()
     // Recruiters Schema
     val recruiterSchema = new StructType()
@@ -105,11 +106,13 @@ class  KafkaConsumerProgram extends Thread{
         .add("contact_method", StringType, false)
     // Extract json Data from topic input in column 'value'
     val recruitersDF = recruiterTopicDF.withColumn("jsonData", from_json(col("value"),recruiterSchema)).select("jsonData.*")
+    println("recruiters DataFrame schema")
     recruitersDF.printSchema()
     val contactAttemptsDF = contactAttemptsTopicDF.withColumn("jsonData", from_json(col("value"),contactAttemptSchema)).select("jsonData.*")
+    println("contactAttempts DataFrame schema")
     contactAttemptsDF.printSchema()
     // Query for count of all contact attempts, output to console in complete mode to show all results after data is published to contact attempts topic
-    val allCountQuery = contactAttemptsDF.select(count("*") as "count").writeStream
+    val allCountQuery = contactAttemptsDF.select(count("*") as "Number of Contact Attempts").writeStream
       .outputMode("complete")
       .format("console")
       .start()

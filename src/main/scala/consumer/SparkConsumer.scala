@@ -1,3 +1,13 @@
+//Create a Producer for Qualified Lead Topic
+//$KAFKA_HOME/bin/kafka-console-producer.sh --broker-list sandbox-hdp.hortonworks.com:6667 --topic Qualified_Lead
+
+//REMEMBER TO CREATE THE TOPIC FIRST:
+//$KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Qualified_Lead
+
+//Run in maria_dev in another console to see total qualified leads
+//spark-submit --packages org.apache.spark:spark-sql-fka-0-10_2.11:2.3.0  --class consumer.SparkConsumer  project-3_2.11-1.0.jar
+
+
 package consumer
 
 import org.apache.spark.sql.SparkSession
@@ -49,7 +59,7 @@ object SparkConsumer{
        //Select total number of Qualified Leads
        val qualifiedLeadCount = qualifiedLeadDF.select(count("id") as "total_qualified_leads")
        
-       //output result to console
+       //Output result to console
        val outputResult = qualifiedLeadCount.writeStream
        .outputMode("complete")
        .format("console")

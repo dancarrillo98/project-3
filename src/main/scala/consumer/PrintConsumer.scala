@@ -1,3 +1,13 @@
+//Create a Producer for the Topic you want to write to
+//$KAFKA_HOME/bin/kafka-console-producer.sh --broker-list sandbox-hdp.hortonworks.com:6667 --topic Qualified_Lead
+//Replace above topic name with Recruiters, Contact_Attempts, Screening, Offers, or Screeners
+
+//REMEMBER TO CREATE THE TOPICS FIRST:
+//$KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Qualified_Lead
+
+//Run in maria_dev in another console to see output
+//spark-submit --packages org.apache.spark:spark-sql-fka-0-10_2.11:2.3.0 --class consumer.PrintConsumer  project-3_2.11-1.0.jar
+
 package consumer
 
 import java.util.{Collections, Properties}
@@ -47,9 +57,7 @@ object PrintConsumer {
         val records = consumer.poll(10)
         for (record <- records.asScala) {
           println("Topic: " + record.topic())
-
-          println(
-            "Value: " + record.value()) + "\n\n"
+          println("Value: " + record.value() + "\n")
         }
       }
     } catch {

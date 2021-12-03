@@ -6,7 +6,7 @@ ThisBuild / organizationName := "example"
 
 lazy val root = (project in file("."))
   .settings(
-    assembly / mainClass := Some("scala.Topics"),
+    assembly / mainClass := Some("Topic.KafkaTopics"),
     assembly / assemblyJarName := "kafka.jar",
     name := "scalastreaming",
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9",

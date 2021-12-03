@@ -57,7 +57,7 @@ object Kafka {
     def loadNewData(): Unit = ???
 
     def messageGenerator(): String = {
-      if (this.msgCounter < this.msgData.length) {
+      if (this.msgCounter > this.msgData.length) {
         this.loadNewData()
         this.msgCounter = 0
       }
@@ -70,7 +70,7 @@ object Kafka {
     }
 
     def messageGenerator(qlHand: QualifiedLead): String = {
-      if (this.msgCounter < this.msgData.length) {
+      if (this.msgCounter > this.msgData.length) {
         this.loadNewData()
         this.msgCounter = 0
       }
@@ -129,7 +129,7 @@ object Kafka {
     }
 
     override def messageGenerator(): String = {
-      if (msgCounter < msgData.length) {
+      if (msgCounter > msgData.length) {
         loadNewData()
         msgCounter = 0
       }
@@ -218,26 +218,3 @@ object Kafka {
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/** Shadow realm jimbo
-  *
-  * // def chanceNextMessage(typ: Int): Int = { // val rand = scala.util.Random
-  * // val nextQ = rand.nextInt(100); // if(nextQ > 40) // return typ + 1; //
-  * return typ // }
-  */

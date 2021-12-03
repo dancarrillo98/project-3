@@ -1,13 +1,14 @@
-package example
+package producer
 
 // Project imports
-import example.Api._
-import example.Kafka._
+import producer.Api._
+import producer.Kafka._
 import java.util.Properties
 
 object mock extends App {
 
     val rand = scala.util.Random;
+    msgStreamFirst()
 
     var stop = false; // Testing
     while(!stop)

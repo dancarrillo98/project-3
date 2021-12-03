@@ -1,0 +1,72 @@
+package producer
+
+object obtainDataConceptScala{
+val RecruiterURL = "https://my.api.mockaroo.com/Recruiters?key="
+val QualifiedLeadURL= "https://my.api.mockaroo.com/Qualified_Lead?key="
+val ScreenersURL = "https://my.api.mockaroo.com/Screeners?key="
+val OffersURL = "https://my.api.mockaroo.com/Offers?key="
+val ScreeningURL = "https://my.api.mockaroo.com/Screening?key="
+
+def obtainData(url: String): Array[String] = {
+    var exit = false
+    var iter = 0
+    while(!exit){
+        iter += 1
+        if(iter < 2){
+            for(key <- 0 to apiKeyArray.length){
+                try{
+                    getRestContent(s"$url=$key").split("},")
+                    var exit = true
+                }catch{
+                    case ex : Throwable => {
+                    ex.printStackTrace();
+                    println(s"API was not called because call limit for $key has been met")
+                    throw new Exception (s"${ex.getMessage}")
+                    }
+                }
+            }
+        }else{
+            var exit = true
+        }
+    }
+}
+
+def obtainData(url: String): Array[String] = {
+    var exit = false
+    while(!exit){
+        for(key <- 0 to apiKeyArray.length){
+            try{
+                getRestContent(s"$url=$key").split("},")
+                var exit = true
+            }catch{
+                case ex : Throwable => {
+                ex.printStackTrace();
+                println(s"API was not called because call limit for $key has been met")
+                throw new Exception (s"${ex.getMessage}")
+                }
+            }
+        }
+    }
+}
+
+
+
+
+def recruiterData(): Array[String] =    
+    var exit = false
+    while(!exit){
+        for(key <- 0 to apiKeyArray.length){
+            try{
+                getRestContent(s"https://my.api.mockaroo.com/Recruiters?key=${apiKeyArray(keyIter)}").split("},")
+                var exit = true
+            }catch{
+                case ex : Throwable => {
+                ex.printStackTrace();
+                println(s"API was not called because call limit for $key has been met")
+                throw new Exception (s"${ex.getMessage}")
+                }
+            }
+        }
+    }
+    //getRestContent(s"https://my.api.mockaroo.com/Recruiters?key=${apiKeyArray(keyIter)}").split("},")
+}

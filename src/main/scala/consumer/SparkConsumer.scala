@@ -1,13 +1,3 @@
-//Create a Producer for Qualified Lead Topic
-//$KAFKA_HOME/bin/kafka-console-producer.sh --broker-list sandbox-hdp.hortonworks.com:6667 --topic Qualified_Lead
-
-//REMEMBER TO CREATE THE TOPIC FIRST:
-//$KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Qualified_Lead
-
-//Run in maria_dev in another console to see total qualified leads
-//spark-submit --packages org.apache.spark:spark-sql-fka-0-10_2.11:2.3.0  --class consumer.SparkConsumer  project-3_2.11-1.0.jar
-
-
 package consumer
 
 import org.apache.spark.sql.SparkSession
@@ -16,29 +6,12 @@ import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 
-//object
 class SparkConsumer{
-    // def main(args: Array[String]): Unit = {
-    //     val spark = SparkSession.builder.appName("Producer Test").config("spark.master", "local[*]").getOrCreate()
-
-    //     import spark.implicits._
-
-    //     spark.sparkContext.setLogLevel("ERROR")
-
-    //     writeQualifiedLeadTotal(spark, "Qualified_Lead")
-    //     //spark.streams.awaitAnyTermination()
-    // }
 
     def writeQualifiedLeadTotal(spark: SparkSession, df: DataFrame): Unit = {
-    //     //Subscribe to Qualified Lead Topic containing JSON data
-    //    val df = spark.readStream
-    //    .format("kafka")
-    //    .option("kafka.bootstrap.servers", "sandbox-hdp.hortonworks.com:6667")
-    //    .option("subscribe", topicName)
-    //    .load()
-
-    
+        //Obtain the value and key from the topic
         val dfSelect = df.select(col("key").cast("string"), col("value").cast("string"))
+        println("Schema for DataFrame created from Qualified Lead Topic")
         dfSelect.printSchema()
 
        //Schema for Qualified Leads
@@ -53,6 +26,7 @@ class SparkConsumer{
 
         //Apply schema to DF containing JSON data
        val qualifiedLeadDF = dfSelect.withColumn("JSON_data", from_json(col("value"), qualifiedLeadSchema)).select("JSON_data.*")
+       println("Qualified Lead DataFrame Schema")
        qualifiedLeadDF.printSchema()
 
         //Write topic events to JSON file
@@ -68,6 +42,7 @@ class SparkConsumer{
        .format("console")
        .start()
        
+       //Stop streaming to console
        scala.io.StdIn.readLine()
        outputResult.stop()
     }
@@ -111,6 +86,7 @@ class SparkConsumer{
         //TODO
         //Need to decide where to put these filepath variables
         //Change filename path after testing
+        //Determine how to output a single file containing all results
 
         //Filepath
         val filePath = "file:///home/maria_dev/json_data"

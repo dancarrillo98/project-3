@@ -89,6 +89,7 @@ class  KafkaConsumerProgram extends Thread{
 
  */
 
+ //Determine and display on the console the total number of Qualified Leads
   def q1(): Unit = {
     val qualifiedLeadSpark = new SparkConsumer()
     qualifiedLeadSpark.writeQualifiedLeadTotal(spark, topic6)

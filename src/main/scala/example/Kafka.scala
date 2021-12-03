@@ -57,7 +57,7 @@ object Kafka {
     def loadNewData(): Unit = ???
 
     def messageGenerator(): String = {
-      if (this.msgCounter > this.msgData.length) {
+      if (this.msgCounter > this.msgData.length - 1) {
         this.loadNewData()
         this.msgCounter = 0
       }
@@ -70,7 +70,7 @@ object Kafka {
     }
 
     def messageGenerator(qlHand: QualifiedLead): String = {
-      if (this.msgCounter > this.msgData.length) {
+      if (this.msgCounter > this.msgData.length - 1) {
         this.loadNewData()
         this.msgCounter = 0
       }

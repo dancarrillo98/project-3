@@ -129,7 +129,7 @@ object Kafka {
     }
 
     override def messageGenerator(): String = {
-      if (msgCounter > msgData.length) {
+      if (msgCounter > msgData.length-1) {
         loadNewData()
         msgCounter = 0
       }
@@ -214,7 +214,7 @@ object Kafka {
 
       screeningHandler.sendMessage()
       offersHandler.sendMessage()
-      Thread.sleep(2000)
     }
+    Thread.sleep(2000) // Wait 2 secs before proceeding
   }
 }

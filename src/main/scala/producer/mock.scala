@@ -1,4 +1,4 @@
-package example
+package producer //going to be producer when added to main project
 
 // Project imports
 import example.Api._
@@ -17,7 +17,9 @@ object mock extends App {
         msgStream(msgNum);
         
         // Testing
+        println("Enter anthing to continue ...")
         stop = scala.io.StdIn.readBoolean();        
+        
     }
     producer.close()
 

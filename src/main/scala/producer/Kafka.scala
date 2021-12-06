@@ -1,4 +1,4 @@
-package example
+package producer //going to be producer when added to main project
 
 // Kafka imports
 import java.util.Properties
@@ -64,7 +64,7 @@ object Kafka {
       }
       val returnStr = this.msgData(this.msgCounter)
         .replace("\"id\":1", "\"id\":" + this.id)
-
+ 
       returnStr
     }
  
@@ -106,7 +106,6 @@ object Kafka {
 
     override def loadNewData(): Unit = {
       msgData = recruiterData()
-      Thread.sleep(5000)
     }
 
     def setID(): Unit = {
@@ -121,7 +120,6 @@ object Kafka {
 
     override def loadNewData(): Unit = {
       msgData = screenerData()
-      Thread.sleep(5000)
     }
     def setID(): Unit = {
       val rand = scala.util.Random;
@@ -135,7 +133,6 @@ object Kafka {
 
     override def loadNewData(): Unit = {
       msgData = qlData()
-      Thread.sleep(5000) 
     }
   }
 
@@ -144,8 +141,7 @@ object Kafka {
     override val topicName = "Contact_Attempts"
 
     override def loadNewData(): Unit = {
-      msgData = caData()
-      Thread.sleep(5000)
+      msgData = caData();
     }
 
     def messageGenerator(recruiterH: Recruiters,
@@ -184,7 +180,6 @@ object Kafka {
 
     override def loadNewData(): Unit = {
       msgData = screeningData()
-      Thread.sleep(5000)
     }
      
     def messageGenerator(screenerH: Screeners,
@@ -223,7 +218,6 @@ object Kafka {
 
     override def loadNewData(): Unit = {
       msgData = offerData()
-      Thread.sleep(5000)
     }
 
     def messageGenerator(screenerH: Screeners,
@@ -292,8 +286,9 @@ object Kafka {
     
     for (i <- 0 until 100) {
       println("We are at: " + totalMsgCounter)
-
+      println("Sending recruiter data") //delete this out when complete
       recruitersHandler.sendMessage() 
+      println("Sending screener data") //delete this out when complete
       screenersHandler.sendMessage()
     }
   }
@@ -302,14 +297,23 @@ object Kafka {
 
     for (i <- 0 until numMsg) {
       println("We are at: " + totalMsgCounter)
-      if(typeCounter == 0)
+      if(typeCounter == 0) {
+        println("Sending ql data")
         qlHandler.sendMessage()
-      else if(typeCounter == 1)
+      }
+      else if(typeCounter == 1) {
+        println("Sending contact attempts data")
         caHandler.sendMessage(recruitersHandler, qlHandler)
-      else if(typeCounter == 2)
+      }
+      else if(typeCounter == 2) {
+        println("Sending screening data")
         screeningHandler.sendMessage(screenersHandler, qlHandler)
-      else if(typeCounter == 3)
+      }
+      else if(typeCounter == 3){
+        println("Sending offers data")
         offersHandler.sendMessage(screenersHandler, recruitersHandler, qlHandler)
+      }
+        
     }
     Thread.sleep(2000)
   }

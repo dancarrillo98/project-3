@@ -9,8 +9,12 @@ object CLIConsumerProgram {
         override def run {
              do{
                 print("\u001b[2J")
-                println("Please select an option")
-                println("1. Question 1\n2. Question 2\n3. Question 3\n4. Question 4\n5. Quit Application")
+                println("Please select information to display:")
+                println("1. Total Number of Qualified Leads" +
+                      "\n2. Total Number of Contact Attempts and Attempts per Recruiter" +
+                      "\n3. Total Number of Screenings and Attempts per Screener" +
+                      "\n4. Total Number of Offers and Offers by Action" +
+                      "\n5. Quit Application")
                 try {
                   
                   val option = scala.io.StdIn.readInt()

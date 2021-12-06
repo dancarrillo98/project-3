@@ -7,6 +7,7 @@ object CLIConsumerProgram {
 
     val thread2 = new Thread {
         override def run {
+             kc.writeTopicsToFile()
              do{
                 print("\u001b[2J")
                 println("Please select information to display:")
@@ -34,6 +35,7 @@ object CLIConsumerProgram {
                       kc.q4()
                     }
                     case 5 => {
+                      kc.mergeFiles()
                       loop = false
                     }
                 }

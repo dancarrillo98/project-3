@@ -1,8 +1,8 @@
-package producer
+package example
 
 // Project imports
-import producer.Api._
-import producer.Kafka._
+import example.Api._
+import example.Kafka._
 import java.util.Properties
 
 object mock extends App {

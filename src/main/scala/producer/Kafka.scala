@@ -1,10 +1,10 @@
-package producer
+package example
 
 // Kafka imports
 import java.util.Properties
 import org.apache.kafka.common.serialization.StringSerializer
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
-import producer.Api._
+import example.Api._
 
 object Kafka {
 
@@ -106,6 +106,7 @@ object Kafka {
 
     override def loadNewData(): Unit = {
       msgData = recruiterData()
+      Thread.sleep(5000)
     }
 
     def setID(): Unit = {
@@ -120,6 +121,7 @@ object Kafka {
 
     override def loadNewData(): Unit = {
       msgData = screenerData()
+      Thread.sleep(5000)
     }
     def setID(): Unit = {
       val rand = scala.util.Random;
@@ -133,6 +135,7 @@ object Kafka {
 
     override def loadNewData(): Unit = {
       msgData = qlData()
+      Thread.sleep(5000) 
     }
   }
 
@@ -142,6 +145,7 @@ object Kafka {
 
     override def loadNewData(): Unit = {
       msgData = caData()
+      Thread.sleep(5000)
     }
 
     def messageGenerator(recruiterH: Recruiters,
@@ -180,6 +184,7 @@ object Kafka {
 
     override def loadNewData(): Unit = {
       msgData = screeningData()
+      Thread.sleep(5000)
     }
      
     def messageGenerator(screenerH: Screeners,
@@ -218,6 +223,7 @@ object Kafka {
 
     override def loadNewData(): Unit = {
       msgData = offerData()
+      Thread.sleep(5000)
     }
 
     def messageGenerator(screenerH: Screeners,
@@ -285,7 +291,7 @@ object Kafka {
   def msgStreamFirst(): Unit = {
     
     for (i <- 0 until 100) {
-      println("We are at : " + totalMsgCounter)
+      println("We are at: " + totalMsgCounter)
 
       recruitersHandler.sendMessage() 
       screenersHandler.sendMessage()
@@ -295,7 +301,7 @@ object Kafka {
   def msgStream(numMsg: Int): Unit = {
 
     for (i <- 0 until numMsg) {
-      println("We are at : " + totalMsgCounter)
+      println("We are at: " + totalMsgCounter)
       if(typeCounter == 0)
         qlHandler.sendMessage()
       else if(typeCounter == 1)
@@ -308,3 +314,26 @@ object Kafka {
     Thread.sleep(2000)
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/** Shadow realm jimbo
+  *
+  * // def chanceNextMessage(typ: Int): Int = { // val rand = scala.util.Random
+  * // val nextQ = rand.nextInt(100); // if(nextQ > 40) // return typ + 1; //
+  * return typ // }
+  */

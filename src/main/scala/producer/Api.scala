@@ -1,4 +1,4 @@
-package producer
+package example
 
 import org.apache.http.HttpEntity
 import org.apache.http.HttpResponse
@@ -13,7 +13,6 @@ object Api {
     var tmpStr1 = """ id: 0, name: jj, lname: mer"""
     var tmpStr = tmpStr1 + "\n" +tmpStr1 + "\n" +tmpStr1+"\n" + tmpStr1;
     
-
 
     /**
       * 
@@ -47,6 +46,7 @@ object Api {
    
     final val apiKeyArray = Array("2f9538c0", "235571b0", "fe859db0", "d7f87c40")
     var keyIter = 0
+    
     //Calls to Mockaroo API to generate mock data
     
     // Iterate through apiKeyArray until first key that produces a message
@@ -64,34 +64,33 @@ object Api {
     //         }
     //     }
     
-    // val RecruiterURL = "https://my.api.mockaroo.com/Recruiters?key="
+    val RecruiterURL = "https://my.api.mockaroo.com/Recruiters?key="
 
-    // def obtainData(url: String): Array[String] = {
-    //     var exit = false
-    //     var JSON = Array[String]()
-    //     while(!exit){
-    //         println("Starting the while loop")
-    //         for(key <- 0 to apiKeyArray.length){
-    //             try{
-    //                 var JSON = getRestContent(s"$url=$key").split("},")
-    //                 var exit = true
-    //             }catch{
-    //                 case ex : Throwable => {
-    //                     ex.printStackTrace();
-    //                     println(s"API was not called because call limit for $key has been met")
-    //                     throw new Exception (s"${ex.getMessage}")
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     println("while loop stopped")
-    //     JSON
-    // }
+    def obtainData(url: String): Array[String] = {
+        var exit = false
+        var JSON = Array[String]()
+        while(!exit){
+            println("Starting the while loop")
+            for(key <- 0 to apiKeyArray.length){
+                try{
+                    var JSON = getRestContent(s"$url=$key").split("},")
+                    var exit = true
+                }catch{
+                    case ex : Throwable => {
+                        ex.printStackTrace();
+                        println(s"API was not called because call limit for $key has been met")
+                        throw new Exception (s"${ex.getMessage}")
+                    }
+                }
+            }
+        }
+        println("while loop stopped")
+        JSON
+    }
 
-    // def recruiterData(): Array[String] =    {//getRestContent(s"https://my.api.mockaroo.com/Recruiters?key=${apiKeyArray(keyIter)}").split("},")
-    //                                         obtainData(RecruiterURL)}
+    def recruiterData(): Array[String] =   obtainData(RecruiterURL)
 
-    def recruiterData(): Array[String] =    getRestContent(s"https://my.api.mockaroo.com/Recruiters?key=${apiKeyArray(2)}").split("},")
+    //def recruiterData(): Array[String] =    getRestContent(s"https://my.api.mockaroo.com/Recruiters?key=${apiKeyArray(2)}").split("},")
 
     def qlData(): Array[String] =           getRestContent(s"https://my.api.mockaroo.com/Qualified_Lead?key=${apiKeyArray(2)}").split("},")
 

@@ -1,8 +1,8 @@
-package producer
+package producer //going to be producer when added to main project
 
 // Project imports
-import producer.Api._
-import producer.Kafka._
+import example.Api._
+import example.Kafka._
 import java.util.Properties
 
 object mock extends App {
@@ -17,7 +17,9 @@ object mock extends App {
         msgStream(msgNum);
         
         // Testing
+        println("Enter anthing to continue ...")
         stop = scala.io.StdIn.readBoolean();        
+        
     }
     producer.close()
 

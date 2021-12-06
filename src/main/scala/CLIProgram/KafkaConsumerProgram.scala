@@ -11,6 +11,7 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.types._
 
+import consumer.SparkConsumer
 
 class  KafkaConsumerProgram extends Thread{  
   val spark:SparkSession = SparkSession.builder()
@@ -26,6 +27,7 @@ class  KafkaConsumerProgram extends Thread{
   val topic4 = sparkStream(spark, "Contact_Attempts")
   val topic5 = sparkStream(spark, "Screening")
   val topic6 = sparkStream(spark, "Offers")
+
 
 
   def sparkStream(spark: SparkSession, topic: String): DataFrame = {
@@ -52,8 +54,10 @@ class  KafkaConsumerProgram extends Thread{
   }
 
 
+ //Determine and display on the console the total number of Qualified Leads
   def q1(): Unit = {
- 
+    val qualifiedLeadSpark = new SparkConsumer()
+    qualifiedLeadSpark.writeQualifiedLeadTotal(spark, topic6)
   }
 
   def q2(): Unit = {

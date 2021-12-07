@@ -1,10 +1,10 @@
-package producer
+package producer //going to be producer when added to main project
 
 // Kafka imports
 import java.util.Properties
 import org.apache.kafka.common.serialization.StringSerializer
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
-import producer.Api._
+import example.Api._
 
 object Kafka {
 
@@ -64,7 +64,7 @@ object Kafka {
       }
       val returnStr = this.msgData(this.msgCounter)
         .replace("\"id\":1", "\"id\":" + this.id)
-
+ 
       returnStr
     }
  
@@ -141,7 +141,7 @@ object Kafka {
     override val topicName = "Contact_Attempts"
 
     override def loadNewData(): Unit = {
-      msgData = caData()
+      msgData = caData();
     }
 
     def messageGenerator(recruiterH: Recruiters,
@@ -285,9 +285,10 @@ object Kafka {
   def msgStreamFirst(): Unit = {
     
     for (i <- 0 until 100) {
-      println("We are at : " + totalMsgCounter)
-
+      println("We are at: " + totalMsgCounter)
+      println("Sending recruiter data") //delete this out when complete
       recruitersHandler.sendMessage() 
+      println("Sending screener data") //delete this out when complete
       screenersHandler.sendMessage()
     }
   }
@@ -295,16 +296,48 @@ object Kafka {
   def msgStream(numMsg: Int): Unit = {
 
     for (i <- 0 until numMsg) {
-      println("We are at : " + totalMsgCounter)
-      if(typeCounter == 0)
+      println("We are at: " + totalMsgCounter)
+      if(typeCounter == 0) {
+        println("Sending ql data")
         qlHandler.sendMessage()
-      else if(typeCounter == 1)
+      }
+      else if(typeCounter == 1) {
+        println("Sending contact attempts data")
         caHandler.sendMessage(recruitersHandler, qlHandler)
-      else if(typeCounter == 2)
+      }
+      else if(typeCounter == 2) {
+        println("Sending screening data")
         screeningHandler.sendMessage(screenersHandler, qlHandler)
-      else if(typeCounter == 3)
+      }
+      else if(typeCounter == 3){
+        println("Sending offers data")
         offersHandler.sendMessage(screenersHandler, recruitersHandler, qlHandler)
+      }
+        
     }
     Thread.sleep(2000)
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/** Shadow realm jimbo
+  *
+  * // def chanceNextMessage(typ: Int): Int = { // val rand = scala.util.Random
+  * // val nextQ = rand.nextInt(100); // if(nextQ > 40) // return typ + 1; //
+  * return typ // }
+  */

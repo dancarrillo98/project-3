@@ -1,4 +1,4 @@
-package producer //going to be producer when added to main project
+package producer
 
 // Kafka imports
 import java.util.Properties
@@ -58,7 +58,7 @@ object Kafka {
     def loadNewData(): Unit = ???
 
     def messageGenerator(): String = {
-      if (this.msgCounter > this.msgData.length - 1) {    // < BAD > GOOD 
+      if (this.msgCounter > this.msgData.length - 1) {
         this.loadNewData()
         this.msgCounter = 0
       }
@@ -318,26 +318,3 @@ object Kafka {
     Thread.sleep(2000)
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/** Shadow realm jimbo
-  *
-  * // def chanceNextMessage(typ: Int): Int = { // val rand = scala.util.Random
-  * // val nextQ = rand.nextInt(100); // if(nextQ > 40) // return typ + 1; //
-  * return typ // }
-  */

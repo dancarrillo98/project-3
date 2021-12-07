@@ -39,7 +39,7 @@ object Api {
     }
 
    
-    final val apiKeyArray = Array("jksgn32","2f9538c0", "235571b0", "fe859db0", "d7f87c40")
+    final val apiKeyArray = Array("2f9538c0", "235571b0", "fe859db0", "d7f87c40")
     var keyIter = 0
     
     //Calls to Mockaroo API to generate mock data

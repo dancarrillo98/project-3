@@ -28,7 +28,7 @@ object CLIConsumerProgram {
                       kc.q2()
                     }
                     case 3 => {
-                    kc.q3()
+                      kc.q3()
                     }
                     case 4 => {
                       kc.q4()

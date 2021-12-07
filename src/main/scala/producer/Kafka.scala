@@ -4,7 +4,7 @@ package producer
 import java.util.Properties
 import org.apache.kafka.common.serialization.StringSerializer
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
-import example.Api._
+import producer.Api._
 
 object Kafka {
 

@@ -1,4 +1,4 @@
-package producer //going to be producer when added to main project
+package producer
 
 // Project imports
 import example.Api._

@@ -45,7 +45,7 @@ class SparkConsumer{
        .start()
        
        //Stop streaming to console
-       scala.io.StdIn.readLine()
+       scala.io.StdIn.readLine("Showing Results\nPress Enter to Return to Main Menu\n")
        outputResult.stop()
     }
 
@@ -84,22 +84,11 @@ class SparkConsumer{
 
 
     //Call this function using DF with schema as parameter to store events into JSON file
-    def writeDataFrameToFile(spark: SparkSession, df: DataFrame, filePath: String, checkPointPath: String): Unit = {
+    def writeDataFrameToFile(df: DataFrame, filePath: String, checkPointPath: String): Unit = {
         //TODO
         //Need to decide where to put these filepath variables
         //Change filename path after testing
         //Determine how to output a single file containing all results
-
-        val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
-        val destPath = new Path(filePath)
-        if (!fs.exists(destPath)){
-            fs.mkdirs(destPath)
-        }
-        //Filepath
-        //val filePath = "file:///home/maria_dev/json_data"
-        //Checkpoint Path
-        //val checkPointPath = "file:///home/maria_dev/checkpoint"
-
 
         //Write DF to JSON file
         df.writeStream

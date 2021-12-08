@@ -32,3 +32,5 @@ More Qualified_Lead
 {"id": 8,"first_name": "Vance","last_name": "Moakes","university": "Bangabandhu Sheikh Mujibur Rahman Agricultural University","major": "Engineering","email": "vmoakes7@vk.com","home_state": "MI"}, 
 {"id": 9,"first_name": "Celle","last_name": "Grocock","university": "United States Coast Guard Academy","major": "Accounting","email": "cgrocock8@jiathis.com","home_state": "CA"}, 
 {"id": 10,"first_name": "Shandie","last_name": "Lanney","university": "National Aviation Academy","major": "Research and Development","email": "slanney9@cmu.edu","home_state": "FL"}
+
+scp -P 2222 "C:\Users\Charles Dang\Documents\Revature\Projects\project-3\target\scala-2.11\project-3_2.11-1.0.jar" maria_dev@sandbox-hdp.hortonworks.com:/home/maria_dev

@@ -128,59 +128,24 @@ class  KafkaConsumerProgram extends Thread{
   val topic5checkpoint = "file:///home/maria_dev/checkpoint5"
   val topic6checkpoint = "file:///home/maria_dev/checkpoint6"
 
-  //Write the streaming DataFrames from the Topics to files
+  //Write the streaming DataFrames from the Topics to files 
+  //Executed at the startup of the application
   def writeTopicsToFile(): Unit = {
-
     //Screeners
-    writeScreenersToFile()
-
-    //Recruiters
-    writeRecruitersToFile()
-
-    //Qualified_Lead
-    writeQualifiedLeadToFile()
-
-    //Contact_Attempts
-    writeContactAttemptsToFile()
-
-    //Screening
-    writeScreeningToFile()
-
-    //Offers
-    writeOffersToFile()
-  }
-
-  def writeScreenersToFile(): Unit = {
-    val topicWriter = new SparkConsumer()
-    val df = topic1.select(col("value").cast("string"))
-
     val screenerSchema = new StructType()
       .add("id", IntegerType, false)
       .add("first_name", StringType, false)
       .add("last_name", StringType, false)
+    writeTopicToFile(topic1, screenerSchema, topic1filepath, topic1checkpoint)
 
-    val screenersDF = changeSchema(df,screenerSchema)
-    topicWriter.writeDataFrameToFile(screenersDF, topic1filepath, topic1checkpoint)
-  }
-
-  def writeRecruitersToFile(): Unit = {
-    val topicWriter = new SparkConsumer()
-    val df = topic2.select(col("value").cast("string"))
-
+    //Recruiters
     val recruiterSchema = new StructType()
       .add("id", IntegerType, false)
       .add("first_name", StringType, false)
       .add("last_name", StringType, false)
+    writeTopicToFile(topic2, recruiterSchema, topic2filepath, topic2checkpoint)
 
-    val recruitersDF = changeSchema(df,recruiterSchema)
-    topicWriter.writeDataFrameToFile(recruitersDF, topic2filepath, topic2checkpoint)
-  }
-
-  def writeQualifiedLeadToFile(): Unit = {
-    val topicWriter = new SparkConsumer()
-    val df = topic3.select(col("value").cast("string"))
-
-    //Schema for Qualified Leads
+    //Qualified_Lead
     val qualifiedLeadSchema = new StructType()
       .add("id", IntegerType, false)
       .add("first_name", StringType, false)
@@ -189,16 +154,9 @@ class  KafkaConsumerProgram extends Thread{
       .add("major", StringType, false)
       .add("email", StringType, false)
       .add("home_state", StringType, false)
+    writeTopicToFile(topic3, qualifiedLeadSchema, topic3filepath, topic3checkpoint)
 
-    //Apply schema to DF containing JSON data
-    val qualifiedLeadDF = changeSchema(df, qualifiedLeadSchema)
-    topicWriter.writeDataFrameToFile(qualifiedLeadDF, topic3filepath, topic3checkpoint)
-  }
-
-  def writeContactAttemptsToFile(): Unit = {
-    val topicWriter = new SparkConsumer()
-    val df = topic4.select(col("value").cast("string"))
-
+    //Contact_Attempts
     val contactAttemptSchema = new StructType()
       .add("recruiter_id", IntegerType, false)
       .add("ql_id", IntegerType, false)
@@ -206,15 +164,9 @@ class  KafkaConsumerProgram extends Thread{
       .add("start_time", StringType, false)
       .add("end_time", StringType, false)
       .add("contact_method", StringType, false)
+    writeTopicToFile(topic4, contactAttemptSchema, topic4filepath, topic4checkpoint)
 
-    val contactAttemptsDF = changeSchema(df,contactAttemptSchema)
-    topicWriter.writeDataFrameToFile(contactAttemptsDF, topic4filepath, topic4checkpoint)
-  }
-
-  def writeScreeningToFile(): Unit = {
-    val topicWriter = new SparkConsumer()
-    val df = topic5.select(col("value").cast("string"))
-
+    //Screening
     val screeningSchema = new StructType()
       .add("screener_id", IntegerType, false)
       .add("ql_id", IntegerType, false)
@@ -224,15 +176,9 @@ class  KafkaConsumerProgram extends Thread{
       .add("screening_type", StringType, false)
       .add("question_number", IntegerType, false)
       .add("question_accepted", IntegerType, false)
+    writeTopicToFile(topic5, screeningSchema, topic5filepath, topic5checkpoint)
 
-    val screeningsDF = changeSchema(df,screeningSchema)
-    topicWriter.writeDataFrameToFile(screeningsDF, topic5filepath, topic5checkpoint)
-  }
-
-  def writeOffersToFile(): Unit = {
-    val topicWriter = new SparkConsumer()
-    val df = topic6.select(col("value").cast("string"))
-    
+    //Offers
     val offerSchema = new StructType()
       .add("screener_id", IntegerType, false)
       .add("recruiter_id", IntegerType, false)
@@ -241,11 +187,19 @@ class  KafkaConsumerProgram extends Thread{
       .add("offer_action_date", StringType, false)
       .add("contact_method", StringType, false)
       .add("offer_action", StringType, false)
-
-    val offersDF = changeSchema(df,offerSchema)
-    topicWriter.writeDataFrameToFile(offersDF, topic6filepath, topic6checkpoint)
+    writeTopicToFile(topic6, offerSchema, topic6filepath, topic6checkpoint)
   }
 
+  //Helper function to writeTopicsToFile function
+  def writeTopicToFile(topic: DataFrame, schema: StructType, topicFilePath: String, topicCheckpoint: String): Unit = {
+    val topicWriter = new SparkConsumer()
+    val df = topic.select(col("value").cast("string"))
+    val updatedDF = changeSchema(df, schema)
+    topicWriter.writeDataFrameToFile(updatedDF, topicFilePath, topicCheckpoint)
+  }
+
+  //Merge all the files written from each topic into single files 
+  //Executed after manually exiting the program by pressing 5 in the main menu
   def mergeFiles(): Unit = {
     val hadoopConfig = new Configuration()
     val hdfs = FileSystem.get(hadoopConfig)

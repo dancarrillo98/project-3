@@ -86,7 +86,6 @@ class SparkConsumer{
     //Call this function using DF with schema as parameter to store events into JSON file
     def writeDataFrameToFile(df: DataFrame, filePath: String, checkPointPath: String): Unit = {
         //TODO
-        //Need to decide where to put these filepath variables
         //Change filename path after testing
         //Determine how to output a single file containing all results
 

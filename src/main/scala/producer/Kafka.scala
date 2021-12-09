@@ -8,7 +8,18 @@ import producer.Api._
 
 object Kafka {
 
-  // Declartion of properties
+  /**
+    * Description: Object that handles the "producer" role of the project, but is itself not
+    * instantiated in whole. Rather, classes are extended from its traits, and its methods are called
+    * upon individually. Responsible for a consortium of responsibilities, including setup
+    * of the Kafka producer and architecture by which messages are formatted, built, and sent.
+    * @param None
+    * @return None
+  */
+
+
+  // Declartion of properties and seupt for Producer side of Kafka. 
+
   val prodProps: Properties = new Properties()
 
   prodProps.put("bootstrap.servers", "sandbox-hdp.hortonworks.com:6667")
@@ -39,8 +50,8 @@ object Kafka {
       case class Offers extends msgTypes
     *
     * Names for the Topics: 
-      "Recruiters" 
-      "Screeners"
+      "Recruiters"        *
+      "Screeners"         *
       "Qualified_Lead"    * 
       "Contact_Attempts"  *
       "Screening"         * 
@@ -49,15 +60,35 @@ object Kafka {
     * 
     */
   sealed trait msgTypes {
+    /**
+      * Description: Trait used to instantiate individual classes representing the topics.
+      * Methods include generating the data, formulating that data into a message, then sending
+      * that message to a Kafka topic.
+      * @param None
+      * @return None
+    */
 
-    val topicName = "NaN"
-    var id: Int = 0
+
+    val topicName = "NaN"         // Topic name will be overridden when trait is instantiated.
+    var id: Int = 0               // General identification for the person in question
     var msgCounter: Int = 0
     var msgData: Array[String] = Array[String]()
 
     def loadNewData(): Unit = ???
+    /**
+     * Description: Defines a blank function that will be overloaded for customization based on the
+     * specific topic it applies to.
+     * @param None
+     * @return None
+    */
 
     def messageGenerator(): String = {
+    /**
+     * Description: Default message creator that alters the ID number; will be 
+     * overloaded based on the topic it is being applied to.
+      * @param None
+      * @return returnStr: modified string that will be sent as a message to Kafka.
+    */
       if (this.msgCounter > this.msgData.length - 1) {
         this.loadNewData()
         this.msgCounter = 0
@@ -69,6 +100,12 @@ object Kafka {
     }
  
     def sendMessage(): Unit = {
+    /**
+     * Description: Default function that is meant to send the message to Kafka. Will be overloaded
+     * depending on the topic that uses this function.
+     * @param None
+     * @return None
+    */
       this.id += 1
       val msg = new ProducerRecord[String, String](
         this.topicName,
@@ -87,7 +124,14 @@ object Kafka {
         screenersHandler.setID();
       }
     }
+
     def chance(): Unit = { // Decides to go to the next stage, later will decide to end completely
+    /**
+     * Description: Function that will generate a random number which determines how many messages of a 
+     * specific topic are to be generated. 
+     * @param None
+     * @return None
+    */      
       val rand = scala.util.Random;
       var next = rand.nextInt(100);
       if(next > 40)
@@ -98,9 +142,13 @@ object Kafka {
  
   }
 
-
+  // The next few case classes represent the topics that create classes via 
+  // extending the msgTypes trait. The traits are overloaded based on which topic
+  // is being used. 
 
   case class Recruiters() extends msgTypes {
+
+    this.msgData = recruiterData()
 
     override val topicName = "Recruiters"
 
@@ -116,6 +164,8 @@ object Kafka {
   
   case class Screeners() extends msgTypes {
 
+    this.msgData = screenerData()
+
     override val topicName = "Screeners"
 
     override def loadNewData(): Unit = {
@@ -129,6 +179,8 @@ object Kafka {
 
   case class QualifiedLead() extends msgTypes {
 
+    this.msgData = qlData()
+
     override val topicName = "Qualified_Lead"
 
     override def loadNewData(): Unit = {
@@ -137,6 +189,8 @@ object Kafka {
   }
 
   case class ContactAttempts() extends msgTypes {
+
+    this.msgData = caData()
 
     override val topicName = "Contact_Attempts"
 
@@ -176,6 +230,8 @@ object Kafka {
 
   case class Screening() extends msgTypes {
 
+    this.msgData = screeningData()
+
     override val topicName = "Screening"
 
     override def loadNewData(): Unit = {
@@ -214,6 +270,8 @@ object Kafka {
 
   case class Offers() extends msgTypes {
 
+    this.msgData = offerData()
+
     override val topicName = "Offers"
 
     override def loadNewData(): Unit = {
@@ -246,10 +304,16 @@ object Kafka {
 
       val meta = producer.send(msg);
 
+      extendOffer(); // If the offer is not delayed, reset back to QL
       this.id += 1
       this.msgCounter += 1
       totalMsgCounter += 1
-      chance();
+    }
+
+    def extendOffer() { // extends offer is delayed/deffered
+      var input = ((((msgData(this.msgCounter).split(","))(6)).split(":"))(1)).replace("\"", "");
+      if(input != "Delay")
+        typeCounter = 0;
     }
 
   }
@@ -262,24 +326,9 @@ object Kafka {
   val offersHandler = new Offers()
   val screenersHandler = new Screeners()
 
-  recruitersHandler.loadNewData()
-  screenersHandler.loadNewData()
-  qlHandler.loadNewData()
-  caHandler.loadNewData()
-  screeningHandler.loadNewData()
-  offersHandler.loadNewData()
-
   recruitersHandler.id += 1
   screenersHandler.id += 101
   qlHandler.id += 200
-
-  /** msgStream Will output a set of messages to each topic
-    * 
-    *
-    * case class have guards against running out of data
-    *
-    * @param numMsg = the number of messages sent to the topics in total
-    */
  
  //Sends Data into the Recruiter and Screener Topics
   def msgStreamFirst(): Unit = {
@@ -292,7 +341,14 @@ object Kafka {
       screenersHandler.sendMessage()
     }
   }
- 
+  
+  /** msgStream Will output a set of messages to each topic
+  * 
+  *
+  * case class have guards against running out of data
+  *
+  * @param numMsg = the number of messages sent to the topics in total
+  */
   def msgStream(numMsg: Int): Unit = {
 
     for (i <- 0 until numMsg) {
@@ -305,15 +361,18 @@ object Kafka {
         println("Sending contact attempts data")
         caHandler.sendMessage(recruitersHandler, qlHandler)
       }
-      else if(typeCounter == 2) {
-        println("Sending screening data")
-        screeningHandler.sendMessage(screenersHandler, qlHandler)
-      }
+      else if (typeCounter == 2){ 
+        if((scala.util.Random).nextInt(10) > 1) { //80% chance a contact attempt will lead to a screening
+          println("Sending screening data")
+          screeningHandler.sendMessage(screenersHandler, qlHandler)
+        }
+        else
+          typeCounter = 0;
+      } 
       else if(typeCounter == 3){
-        println("Sending offers data")
-        offersHandler.sendMessage(screenersHandler, recruitersHandler, qlHandler)
+          println("Sending offers data")
+          offersHandler.sendMessage(screenersHandler, recruitersHandler, qlHandler)
       }
-        
     }
     Thread.sleep(2000)
   }

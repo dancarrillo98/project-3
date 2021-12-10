@@ -68,11 +68,10 @@ object Kafka {
       * @return None
     */
 
-
     val topicName = "NaN"         // Topic name will be overridden when trait is instantiated.
     var id: Int = 0               // General identification for the person in question
     var msgCounter: Int = 0
-    var msgData: Array[String] = Array[String]()
+    var msgData = Array[String]()
 
     def loadNewData(): Unit = ???
     /**
@@ -310,14 +309,13 @@ object Kafka {
       totalMsgCounter += 1
     }
 
-    def extendOffer() { // extends offer is delayed/deffered
+    def extendOffer: Unit = { // extends offer is delayed/deffered
       var input = ((((msgData(this.msgCounter).split(","))(6)).split(":"))(1)).replace("\"", "");
       if(input != "Delay")
         typeCounter = 0;
     }
 
   }
-
 
   val recruitersHandler = new Recruiters()
   val qlHandler = new QualifiedLead()
@@ -351,27 +349,24 @@ object Kafka {
   */
   def msgStream(numMsg: Int): Unit = {
 
-    for (i <- 0 until numMsg) {
-      println("We are at: " + totalMsgCounter)
-      if(typeCounter == 0) {
-        println("Sending ql data")
-        qlHandler.sendMessage()
-      }
-      else if(typeCounter == 1) {
-        println("Sending contact attempts data")
-        caHandler.sendMessage(recruitersHandler, qlHandler)
-      }
-      else if (typeCounter == 2){ 
-        if((scala.util.Random).nextInt(10) > 1) { //80% chance a contact attempt will lead to a screening
+    /** scrMsg either sends a screening message or ends contact with current qualified lead */
+    def scrMsg: Unit = {
+      if((scala.util.Random).nextInt(10) > 1) { //80% chance a contact attempt will lead to a screening
           println("Sending screening data")
           screeningHandler.sendMessage(screenersHandler, qlHandler)
         }
         else
           typeCounter = 0;
-      } 
-      else if(typeCounter == 3){
-          println("Sending offers data")
-          offersHandler.sendMessage(screenersHandler, recruitersHandler, qlHandler)
+    }
+
+    for (i <- 0 until numMsg) {
+      println("We are at: " + totalMsgCounter)
+
+      typeCounter match {
+        case 0 => println("Sending ql data"); qlHandler.sendMessage()
+        case 1 => println("Sending contact attempts data"); caHandler.sendMessage(recruitersHandler, qlHandler)
+        case 2 => scrMsg
+        case 3 => println("Sending offers data"); offersHandler.sendMessage(screenersHandler, recruitersHandler, qlHandler)
       }
     }
     Thread.sleep(2000)

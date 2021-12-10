@@ -25,7 +25,7 @@ object mock extends App {
         
         // Request user to continue or terminate program.
         println("Enter anthing to continue, or type 'false' to terminate producer.")
-        stop = scala.io.StdIn.readBoolean();        
+        //stop = scala.io.StdIn.readBoolean();        
         
     }
     producer.close()

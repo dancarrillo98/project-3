@@ -303,7 +303,7 @@ object Kafka {
 
       val meta = producer.send(msg);
 
-      extendOffer(); // If the offer is not delayed, reset back to QL
+      extendOffer; // If the offer is not delayed, reset back to QL
       this.id += 1
       this.msgCounter += 1
       totalMsgCounter += 1

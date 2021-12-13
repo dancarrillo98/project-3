@@ -21,6 +21,7 @@ $KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server sandbox-hdp.hortonw
 
 Producer APP:
 spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.3.4 --class producer.mock mockaroo_2.11-0.1.0-SNAPSHOT.jar
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.3.4 --class CLIProgram.CLIConsumerProgram mockaroo_2.11-0.1.0-SNAPSHOT.jar
 
 
 

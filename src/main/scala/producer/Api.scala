@@ -37,13 +37,13 @@ object Api {
         if (entity != null) {
             val inputStream = entity.getContent() //Receive JSON string
 
-            // Modify string to remove extraneous braces and brackets.
+            // Modify string to remove extraneous brackets.
             content = scala.io.Source.fromInputStream(inputStream)
                         .getLines
                         .mkString("")
-                        .replace("{", "")
+                        .replace("},", "}#")
                         .replace("[", "")
-                        .replace("}]", "")          // hopefully no hierarchies in the schemas <- This could be incorporated as a stretch goal.
+                        .replace("]", "")          // hopefully no hierarchies in the schemas <- This could be incorporated as a stretch goal.
             inputStream.close          
 
         }       
@@ -82,7 +82,7 @@ object Api {
             try{
                 key = apiKeyArray(keyCounter);
                 //println(key)
-                JSON = getRestContent(url+key).split("},")
+                JSON = getRestContent(url+key).split("#")
                 if(JSON(0).contains("error")!=true){
                     exit = true
                 }else{
@@ -121,4 +121,5 @@ object Api {
 
     def qlBIGData(): Array[String] =   obtainData(qlBIGDataURL)
 
+}
 }

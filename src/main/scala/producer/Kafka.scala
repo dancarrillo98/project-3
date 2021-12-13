@@ -145,6 +145,8 @@ object Kafka {
   // extending the msgTypes trait. The traits are overloaded based on which topic
   // is being used. 
 
+  // First, new data is generated for the specific topic in hand. Then, the ID is set.
+
   case class Recruiters() extends msgTypes {
 
     this.msgData = recruiterData()
@@ -317,6 +319,9 @@ object Kafka {
 
   }
 
+  // These handlers instantiate new objects based on the (topic) class to be generated. The ID's are overridden
+  // and a message is produced. The message is then sent to Kafka. 
+
   val recruitersHandler = new Recruiters()
   val qlHandler = new QualifiedLead()
   val caHandler = new ContactAttempts()
@@ -324,33 +329,38 @@ object Kafka {
   val offersHandler = new Offers()
   val screenersHandler = new Screeners()
 
+  // These IDs are reset every time numMsg is met in the for-loop in msgStream. 
+
   recruitersHandler.id += 1
   screenersHandler.id += 101
   qlHandler.id += 200
  
  //Sends Data into the Recruiter and Screener Topics
   def msgStreamFirst(): Unit = {
-    
+    /**
+     * Description: Function that sends Data into the Recruiter and Screener Topics
+     * @param None
+     * @return None
+    */  
     for (i <- 0 until 100) {
       println("We are at: " + totalMsgCounter)
-      println("Sending recruiter data") //delete this out when complete
       recruitersHandler.sendMessage() 
-      println("Sending screener data") //delete this out when complete
       screenersHandler.sendMessage()
     }
   }
   
-  /** msgStream Will output a set of messages to each topic
-  * 
-  *
-  * case class have guards against running out of data
-  *
-  * @param numMsg = the number of messages sent to the topics in total
-  */
   def msgStream(numMsg: Int): Unit = {
-
-    /** scrMsg either sends a screening message or ends contact with current qualified lead */
+    /**
+     * Description: Function that will output a set of messages to each topic
+     * @param numMsg: The he number of messages sent to the topics in total.
+     * @return None
+    */  
     def scrMsg: Unit = {
+      /**
+       * Description: Function that either sends a screening message or ends contact with current qualified lead.
+       * @param None
+       * @return None
+      */  
       if((scala.util.Random).nextInt(10) > 1) { //80% chance a contact attempt will lead to a screening
           println("Sending screening data")
           screeningHandler.sendMessage(screenersHandler, qlHandler)
@@ -359,6 +369,8 @@ object Kafka {
           typeCounter = 0;
     }
 
+    // Iterate over the total number of messages that are to be sent (numMsg) to Kafka. Each iteration will send one
+    // QL message, at least one CA message, one screening message, and at least one offers message.
     for (i <- 0 until numMsg) {
       println("We are at: " + totalMsgCounter)
 
@@ -369,6 +381,6 @@ object Kafka {
         case 3 => println("Sending offers data"); offersHandler.sendMessage(screenersHandler, recruitersHandler, qlHandler)
       }
     }
-    Thread.sleep(2000)
+    Thread.sleep(2000) // Send message to Kafka once every two seconds
   }
 }

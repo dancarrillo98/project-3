@@ -7,7 +7,7 @@ ThisBuild / organizationName := "example"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "mockaroo",
+    name := "project-3",
     libraryDependencies += "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
     libraryDependencies += "org.apache.spark" %% "spark-core" % "2.4.3",  // 1.2.0 in examples
     libraryDependencies += "org.apache.spark" %% "spark-sql" % "2.4.3",   // 2.1.0 in examples

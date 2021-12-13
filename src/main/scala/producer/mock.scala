@@ -5,6 +5,8 @@ import producer.Api._
 import producer.Kafka._
 import java.util.Properties
 
+import Topic.KafkaTopics
+
 object mock extends App {
 
     /**
@@ -13,6 +15,10 @@ object mock extends App {
      * @param None
      * @return None
     */
+
+    KafkaTopics.init()
+    KafkaTopics.createTopics(KafkaTopics.topics)
+ 
     println("""██████╗ ███████╗██╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗ ███████╗
 ██╔══██╗██╔════╝██║   ██║██╔══██╗╚══██╔══╝██║   ██║██╔══██╗██╔════╝
 ██████╔╝█████╗  ██║   ██║███████║   ██║   ██║   ██║██████╔╝█████╗  
@@ -21,6 +27,7 @@ object mock extends App {
 ╚═╝  ╚═╝╚══════╝  ╚═══╝  ╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝
                                                                    """.stripMargin)
     Thread.sleep(1000)
+
     val rand = scala.util.Random;
     msgStreamFirst() // This is for testing.
 
@@ -35,6 +42,10 @@ object mock extends App {
         //stop = scala.io.StdIn.readBoolean();        
         
     }
+
+    KafkaTopics.cleanup()
+
     producer.close()
+
 
 }

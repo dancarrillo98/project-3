@@ -44,8 +44,5 @@ object mock extends App {
     }
 
     KafkaTopics.cleanup()
-
     producer.close()
-
-
 }

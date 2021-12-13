@@ -5,10 +5,12 @@ import org.apache.spark.sql.Row
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.{FileSystem, Path}
 
 class SparkConsumer{
 
-    def writeQualifiedLeadTotal(spark: SparkSession, df: DataFrame): Unit = {
+    def writeQualifiedLeadTotal(df: DataFrame): Unit = {
         //Obtain the value and key from the topic
         val dfSelect = df.select(col("key").cast("string"), col("value").cast("string"))
         println("Schema for DataFrame created from Qualified Lead Topic")
@@ -30,7 +32,7 @@ class SparkConsumer{
        qualifiedLeadDF.printSchema()
 
         //Write topic events to JSON file
-       writeDataFrameToFile(qualifiedLeadDF)
+       //writeDataFrameToFile(qualifiedLeadDF)
 
        println("Total Number of Qualified Leads")
        //Select total number of Qualified Leads
@@ -43,7 +45,7 @@ class SparkConsumer{
        .start()
        
        //Stop streaming to console
-       scala.io.StdIn.readLine()
+       scala.io.StdIn.readLine("Showing Results\nPress Enter to Return to Main Menu\n")
        outputResult.stop()
     }
 
@@ -82,16 +84,11 @@ class SparkConsumer{
 
 
     //Call this function using DF with schema as parameter to store events into JSON file
-    def writeDataFrameToFile(df: DataFrame): Unit = {
+    def writeDataFrameToFile(df: DataFrame, filePath: String, checkPointPath: String): Unit = {
         //TODO
         //Need to decide where to put these filepath variables
         //Change filename path after testing
         //Determine how to output a single file containing all results
-
-        //Filepath
-        val filePath = "file:///home/maria_dev/json_data"
-        //Checkpoint Path
-        val checkPointPath = "file:///home/maria_dev/checkpoint"
 
         //Write DF to JSON file
         df.writeStream

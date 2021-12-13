@@ -1,0 +1,19 @@
+// FOR CODE OUTSIDE OF THE PROGRAM
+
+scp -P 2222 .\mockaroo_2.11-0.1.0-SNAPSHOT.jar maria_dev@sandbox-hdp.hortonworks.com:/home/maria_dev
+
+Create a topic:
+$KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Qualified_Lead
+$KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Contact_Attempts
+$KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Screening
+$KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Offers
+
+Create Basic Consumers (each one in a different terminal):
+
+$KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server sandbox-hdp.hortonworks.com:6667 --topic Qualified_Lead
+$KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server sandbox-hdp.hortonworks.com:6667 --topic Contact_Attempts
+$KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server sandbox-hdp.hortonworks.com:6667 --topic Screening
+$KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server sandbox-hdp.hortonworks.com:6667 --topic Offers
+
+Producer APP:
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.3.4 mockaroo_2.11-0.1.0-SNAPSHOT.jar

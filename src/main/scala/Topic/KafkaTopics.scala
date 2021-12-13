@@ -15,10 +15,10 @@ object KafkaTopics extends App {
   var adminClient: Option[AdminClient] = None
 
   var topics = Array("Qualified_Lead", "Contact_Attempts", "Screening", "Offers", "Recruiters", "Screeners")
-  init()
-  createTopics(topics)
+  //init()
+  //createTopics(topics)
   //listTopics().asScala.foreach(x => println(x))
-  cleanup()
+  //cleanup()
   
   def init(host: String = "sandbox-hdp.hortonworks.com", port: Int = 6667): Unit = {
     if(adminClient.isEmpty) {

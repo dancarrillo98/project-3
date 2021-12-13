@@ -122,4 +122,4 @@ object Api {
     def qlBIGData(): Array[String] =   obtainData(qlBIGDataURL)
 
 }
-}
+

@@ -33,6 +33,10 @@ object mock extends App {
         //stop = scala.io.StdIn.readBoolean();        
         
     }
+
+    KafkaTopics.cleanup()
+
     producer.close()
+
 
 }

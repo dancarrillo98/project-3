@@ -107,9 +107,57 @@ class  KafkaConsumerProgram extends Thread{
   def q3(): Unit = {
   
   }
-
+  
   def q4(): Unit = {
- 
+    /**
+     * Description: Function that performs the fourth query according to original req's:
+       "Determine and display (on the console) the number of offers and totals by offer action"
+     * @param None
+     * @return None
+    */ 
+    //val offersTopicDF = getValueDF(topic6)
+    val offersTopicDF = topic6.select(col("value").cast("string"))
+    println("Schema of Offers Data Stream:\n ")
+    topic6.printSchema()
+
+    println("Schema Offers")
+    offersTopicDF.printSchema();
+
+    val offerSchema = new StructType()
+        .add("screener_id", IntegerType, false)
+        .add("recruiter_id", IntegerType, false)
+        .add("ql_id", IntegerType, false)
+        .add("offer_extended_date", StringType, false)
+        .add("offer_action_date", StringType, false)
+        .add("contact_method", StringType, false)
+        .add("offer_action", StringType, false)
+    // Extract json Data from topic input in column 'value'
+    val offersDF = changeSchema(offersTopicDF,offerSchema)
+    println("Updated Offers DataFrame Schema:\n ")
+    offersDF.printSchema()
+    // Count total number of offers // 
+    val offersTotalQuery = offersDF.select(count("*") as "Offers Total").writeStream 
+      .outputMode("complete")         
+      .format("console")
+      .start()
+    // Count of the actions (accept, reject, delay)
+    val offersByActionQuery = offersDF.groupBy("offer_action").count().orderBy(col("count").desc).writeStream
+      .outputMode("complete")
+      .format("console")
+      .start()    
+    // Query for count of contact attempts per Offer ??
+    // val countByOfferQuery = offersDF.groupBy("ql_id").count().orderBy(col("count").desc).writeStream
+    //   .outputMode("complete")
+    //   .format("console")
+    //   .start()
+    // Results message
+    println("Showing Results\n")   
+    // println(s"\nTotal Offers: $offersTotalQuery\n ") 
+    scala.io.StdIn.readLine("Press Enter to Return to Main Menu\n") 
+    // Stop all query streams 
+    offersTotalQuery.stop()
+    offersByActionQuery.stop()
+    // countByOfferQuery.stop()
   }
 
   //Filepaths for Writing Topic Events to Files

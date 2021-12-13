@@ -5,6 +5,8 @@ import producer.Api._
 import producer.Kafka._
 import java.util.Properties
 
+import Topic.KafkaTopics
+
 object mock extends App {
 
     /**
@@ -13,6 +15,9 @@ object mock extends App {
      * @param None
      * @return None
     */
+
+    KafkaTopics.init()
+    KafkaTopics.createTopics(KafkaTopics.topics)
     
     val rand = scala.util.Random;
     msgStreamFirst() // This is for testing.

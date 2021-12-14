@@ -16,8 +16,8 @@ object mock extends App {
      * @return None
     */
 
-    KafkaTopics.init()
-    KafkaTopics.createTopics(KafkaTopics.topics)
+    //KafkaTopics.init()
+    //KafkaTopics.createTopics(KafkaTopics.topics)
  
     println("""██████╗ ███████╗██╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗ ███████╗
 ██╔══██╗██╔════╝██║   ██║██╔══██╗╚══██╔══╝██║   ██║██╔══██╗██╔════╝
@@ -43,7 +43,7 @@ object mock extends App {
         
     }
 
-    KafkaTopics.deleteTopics(KafkaTopics.topics)
-    KafkaTopics.cleanup()
+    //KafkaTopics.deleteTopics(KafkaTopics.topics)
+    //KafkaTopics.cleanup()
     producer.close()
 }

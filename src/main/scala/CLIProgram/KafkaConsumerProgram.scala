@@ -130,6 +130,7 @@ class  KafkaConsumerProgram extends Thread{
       .start()
     // Query for count of contact attempts per recruiter
     val attemptsPerScreenerQuery =  screeningDF.groupBy("screener_id").count().orderBy(col("count").desc).writeStream
+      .outputMode("complete")  
       .format("console")
       .start()
     scala.io.StdIn.readLine("Showing Results\nPress Enter to Return to Main Menu\n")

@@ -43,6 +43,7 @@ object mock extends App {
         
     }
 
+    KafkaTopics.deleteTopics(KafkaTopics.topics)
     KafkaTopics.cleanup()
     producer.close()
 }

@@ -15,6 +15,8 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= allDeps
 )
 
+Global / excludeLintKeys += assemblyMergeStrategy
+
 lazy val root = (project in file("."))
   .settings(
     commonSettings,

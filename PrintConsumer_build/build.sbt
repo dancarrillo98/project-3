@@ -17,6 +17,8 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= allDeps
 )
 
+Global / excludeLintKeys += assemblyMergeStrategy
+
 lazy val printConsumer_app = (project in file("."))
   .settings(
     commonSettings,

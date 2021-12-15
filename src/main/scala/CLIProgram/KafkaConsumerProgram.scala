@@ -90,12 +90,12 @@ class  KafkaConsumerProgram extends Thread{
     println("Updated Contact_Attempts DataFrame Schema")
     contactAttemptsDF.printSchema()
     // Query for count of all contact attempts, output to console in complete mode to show all results after data is published to contact attempts topic
-    val allCountQuery = contactAttemptsDF.select(count("ql_id") as "Number of Contact Attempts").writeStream
+    val allCountQuery = contactAttemptsDF.select(count("ql_id") as "Number of Contact Attempts").na.drop().writeStream
       .outputMode("complete")
       .format("console")
       .start()
     // Query for count of contact attempts per recruiter
-    val countByRecruiterQuery = contactAttemptsDF.groupBy("recruiter_id").count().orderBy(col("count").desc).writeStream
+    val countByRecruiterQuery = contactAttemptsDF.groupBy("recruiter_id").count().orderBy(col("count").desc).na.drop().writeStream
       .outputMode("complete")
       .format("console")
       .start()
@@ -124,12 +124,12 @@ class  KafkaConsumerProgram extends Thread{
     println("Updated Screening DataFrame Schema")
     screeningDF.printSchema()
     // Query for count of all contact attempts, output to console in complete mode to show all results after data is published to contact attempts topic
-    val allCountQuery = screeningDF.select(count("screener_id") as "Number of Screeners").writeStream
+    val allCountQuery = screeningDF.select(count("screener_id") as "Number of Screeners").na.drop().writeStream
       .outputMode("complete")
       .format("console")
       .start()
     // Query for count of contact attempts per recruiter
-    val attemptsPerScreenerQuery =  screeningDF.groupBy("screener_id").count().orderBy(col("count").desc).writeStream
+    val attemptsPerScreenerQuery =  screeningDF.groupBy("screener_id").count().orderBy(col("count").desc).na.drop().writeStream
       .outputMode("complete")  
       .format("console")
       .start()

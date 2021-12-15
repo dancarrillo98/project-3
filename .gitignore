@@ -6,6 +6,7 @@
 .metals/
 .bloop/
 project/**/metals.sbt
+metals.sbt
 
 ### SBT ###
 # Simple Build Tool
@@ -47,7 +48,7 @@ hs_err_pid*
 .ionide
 
 # sbt
-project/
+project/project/
 project/target
 *.class
 *.log

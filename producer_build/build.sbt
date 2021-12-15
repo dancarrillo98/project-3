@@ -12,7 +12,7 @@ val allDeps = Seq(parseCombs, sparkCore, sparkSql, sparkSqlKafka, kafka, kafkaCl
 lazy val commonSettings = Seq(
   assemblyMergeStrategy := {
     case PathList("META-INF", xs @ _*) => MergeStrategy.discard
-    case x => MergeStrategy.first
+    case _ => MergeStrategy.discard
   },
   libraryDependencies ++= allDeps
 )

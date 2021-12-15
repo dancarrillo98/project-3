@@ -5,7 +5,7 @@ ThisBuild / version          := "0.1.0-SNAPSHOT"
 ThisBuild / organization     := "com.example"
 ThisBuild / organizationName := "example"
 
-ThisBuild / scalacOptions ++= Seq("-unchecked", "-deprecation")
+// ThisBuild / scalacOptions ++= Seq("-unchecked", "-deprecation")
 
 val allDeps = Seq(scalaTest, parseCombs, sparkCore, sparkSql, sparkSqlKafka, kafka)
 

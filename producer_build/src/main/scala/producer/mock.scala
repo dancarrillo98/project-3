@@ -5,7 +5,7 @@ import producer.Api._
 import producer.Kafka._
 import java.util.Properties
 
-import Topic.KafkaTopics
+// import Topic.KafkaTopics
 
 object mock extends App {
 
@@ -16,10 +16,12 @@ object mock extends App {
      * @return None
     */
 
+/*
     KafkaTopics.init()
     KafkaTopics.deleteTopics(KafkaTopics.topics)
     KafkaTopics.createTopics(KafkaTopics.topics)
- 
+*/
+
     println("""██████╗ ███████╗██╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗ ███████╗
 ██╔══██╗██╔════╝██║   ██║██╔══██╗╚══██╔══╝██║   ██║██╔══██╗██╔════╝
 ██████╔╝█████╗  ██║   ██║███████║   ██║   ██║   ██║██████╔╝█████╗  
@@ -45,6 +47,6 @@ object mock extends App {
     }
 
     
-    KafkaTopics.cleanup()
+//    KafkaTopics.cleanup()
     producer.close()
 }

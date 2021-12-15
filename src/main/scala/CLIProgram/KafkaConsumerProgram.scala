@@ -167,12 +167,12 @@ class  KafkaConsumerProgram extends Thread{
     println("Updated Offers DataFrame Schema:\n ")
     offersDF.printSchema()
     // Count total number of offers // 
-    val offersTotalQuery = offersDF.select(count("*") as "Offers Total").writeStream 
+    val offersTotalQuery = offersDF.select(count("*") as "Offers Total").na.drop().writeStream 
       .outputMode("complete")         
       .format("console")
       .start()
     // Count of the actions (accept, reject, delay)
-    val offersByActionQuery = offersDF.groupBy("offer_action").count().orderBy(col("count").desc).writeStream
+    val offersByActionQuery = offersDF.groupBy("offer_action").count().orderBy(col("count").desc).na.drop().writeStream
       .outputMode("complete")
       .format("console")
       .start()    

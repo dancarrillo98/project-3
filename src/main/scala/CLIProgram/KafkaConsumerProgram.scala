@@ -90,12 +90,12 @@ class  KafkaConsumerProgram extends Thread{
     println("Updated Contact_Attempts DataFrame Schema")
     contactAttemptsDF.printSchema()
     // Query for count of all contact attempts, output to console in complete mode to show all results after data is published to contact attempts topic
-    val allCountQuery = contactAttemptsDF.select(count("ql_id") as "Number of Contact Attempts").writeStream
+    val allCountQuery = contactAttemptsDF.select(count("ql_id") as "Number of Contact Attempts").na.drop().writeStream
       .outputMode("complete")
       .format("console")
       .start()
     // Query for count of contact attempts per recruiter
-    val countByRecruiterQuery = contactAttemptsDF.groupBy("recruiter_id").count().orderBy(col("count").desc).writeStream
+    val countByRecruiterQuery = contactAttemptsDF.groupBy("recruiter_id").count().orderBy(col("count").desc).na.drop().writeStream
       .outputMode("complete")
       .format("console")
       .start()
@@ -105,6 +105,37 @@ class  KafkaConsumerProgram extends Thread{
   }
 
   def q3(): Unit = {
+  
+    val screeningTopicDF = getValueDF(topic5)
+    println("Schema of Screeners Data Stream")
+    topic5.printSchema()
+    // Recruiters Schema
+    val screeningSchema = new StructType()
+        .add("screener_id", IntegerType, false)
+        .add("ql_id", IntegerType, false)
+        .add("screening_date", DateType, false)
+        .add("start_time", StringType, false)
+        .add("end_time", StringType, false)
+        .add("screening_type", StringType, false)
+        .add("question_number", IntegerType, false)
+        .add("question_accepted", IntegerType, false)
+    // Extract json Data from topic input in column 'value'
+    val screeningDF = changeSchema(screeningTopicDF, screeningSchema)
+    println("Updated Screening DataFrame Schema")
+    screeningDF.printSchema()
+    // Query for count of all contact attempts, output to console in complete mode to show all results after data is published to contact attempts topic
+    val allCountQuery = screeningDF.select(count("screener_id") as "Number of Screeners").na.drop().writeStream
+      .outputMode("complete")
+      .format("console")
+      .start()
+    // Query for count of contact attempts per recruiter
+    val attemptsPerScreenerQuery =  screeningDF.groupBy("screener_id").count().orderBy(col("count").desc).na.drop().writeStream
+      .outputMode("complete")  
+      .format("console")
+      .start()
+    scala.io.StdIn.readLine("Showing Results\nPress Enter to Return to Main Menu\n")
+    allCountQuery.stop()
+    attemptsPerScreenerQuery.stop()
   
   }
   
@@ -136,12 +167,12 @@ class  KafkaConsumerProgram extends Thread{
     println("Updated Offers DataFrame Schema:\n ")
     offersDF.printSchema()
     // Count total number of offers // 
-    val offersTotalQuery = offersDF.select(count("*") as "Offers Total").writeStream 
+    val offersTotalQuery = offersDF.select(count("*") as "Offers Total").na.drop().writeStream 
       .outputMode("complete")         
       .format("console")
       .start()
     // Count of the actions (accept, reject, delay)
-    val offersByActionQuery = offersDF.groupBy("offer_action").count().orderBy(col("count").desc).writeStream
+    val offersByActionQuery = offersDF.groupBy("offer_action").count().orderBy(col("count").desc).na.drop().writeStream
       .outputMode("complete")
       .format("console")
       .start()    

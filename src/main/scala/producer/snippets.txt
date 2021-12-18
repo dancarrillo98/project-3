@@ -20,9 +20,13 @@ $KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server sandbox-hdp.hortonw
 $KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server sandbox-hdp.hortonworks.com:6667 --topic Offers
 
 Producer APP:
-spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.3.4 --class producer.mock mockaroo_2.11-0.1.0-SNAPSHOT.jar
 spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.3.4 --class CLIProgram.CLIConsumerProgram mockaroo_2.11-0.1.0-SNAPSHOT.jar
-
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.3.4 --class producer.mock mockaroo_2.11-0.1.0-SNAPSHOT.jar
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.3.4 --class consumer.PrintConsumer mockaroo_2.11-0.1.0-SNAPSHOT.jar
+    sometimes ...
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.3.4 --class CLIProgram.CLIConsumerProgram project-3_2.11-0.1.0-SNAPSHOT.jar
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.3.4 --class producer.mock project-3_2.11-0.1.0-SNAPSHOT.jar
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.3.4 --class consumer.PrintConsumer project-3_2.11-0.1.0-SNAPSHOT.jar
 
 
 
@@ -30,254 +34,254 @@ _________________________________________________________________
 ___***_  Example of the output to expect from each topic  _***___
 
 From Recruiters Topic:
-"id":2,"first_name":"Kimberlyn","last_name":"Dymick"
-"id":3,"first_name":"Tracey","last_name":"Kochl"
-"id":4,"first_name":"Bronson","last_name":"Doige"
-"id":5,"first_name":"Con","last_name":"Staite"
-"id":6,"first_name":"Washington","last_name":"Mangenot"
-"id":7,"first_name":"Miquela","last_name":"Kilalea"
-"id":8,"first_name":"Winonah","last_name":"Paolucci"
-"id":9,"first_name":"Athene","last_name":"Hertwell"
-"id":10,"first_name":"Laurette","last_name":"Bower"
-"id":11,"first_name":"Kellen","last_name":"Janoschek"
-"id":12,"first_name":"Marris","last_name":"Mixhel"
-"id":13,"first_name":"Alfred","last_name":"Prendeville"
-"id":14,"first_name":"Mallory","last_name":"Weavers"
-"id":15,"first_name":"Zelig","last_name":"Gozzard"
-"id":16,"first_name":"Fairleigh","last_name":"Carwithim"
-"id":17,"first_name":"Ebony","last_name":"Twelves"
-"id":18,"first_name":"Dalis","last_name":"Keyworth"
-"id":19,"first_name":"Tybi","last_name":"Trevino"
-"id":20,"first_name":"Kordula","last_name":"Alexander"
-"id":21,"first_name":"Pauli","last_name":"Rowe"
-"id":22,"first_name":"Meridith","last_name":"Osgar"
-"id":23,"first_name":"Brady","last_name":"Swan"
-"id":24,"first_name":"Rutter","last_name":"Cardow"
-"id":25,"first_name":"Hilda","last_name":"Huggin"
-"id":26,"first_name":"Pennie","last_name":"Cleare"
-"id":27,"first_name":"Natty","last_name":"Rivard"
-"id":28,"first_name":"Pierce","last_name":"Stickells"
-"id":29,"first_name":"Dulsea","last_name":"Raybould"
-"id":30,"first_name":"Thibaud","last_name":"Harden"
-"id":31,"first_name":"Costanza","last_name":"Ledward"
-"id":32,"first_name":"Goober","last_name":"Doumic"
-"id":33,"first_name":"Lettie","last_name":"Varty"
-"id":34,"first_name":"Corabelle","last_name":"Barkus"
-"id":35,"first_name":"Delila","last_name":"Moloney"
-"id":36,"first_name":"Waylan","last_name":"Munnings"
-"id":37,"first_name":"Alfred","last_name":"Hue"
-"id":38,"first_name":"Maude","last_name":"Beech"
-"id":39,"first_name":"Cosme","last_name":"Herrero"
-"id":40,"first_name":"Erinna","last_name":"Boss"
-"id":41,"first_name":"Karole","last_name":"Amps"
-"id":42,"first_name":"Bethanne","last_name":"Kollach"
-"id":43,"first_name":"Darnall","last_name":"Boshers"
-"id":44,"first_name":"Kele","last_name":"Watkinson"
-"id":45,"first_name":"Giusto","last_name":"Grinov"
-"id":46,"first_name":"Susan","last_name":"Joinson"
-"id":47,"first_name":"Hoyt","last_name":"Wasbrough"
-"id":48,"first_name":"Ave","last_name":"Tesauro"
-"id":49,"first_name":"Charlie","last_name":"Kobsch"
-"id":50,"first_name":"Daniella","last_name":"Dunbobbin"
-"id":51,"first_name":"Walliw","last_name":"Mathewson"
-"id":52,"first_name":"Godiva","last_name":"Rielly"
-"id":53,"first_name":"Wait","last_name":"Hessel"
-"id":54,"first_name":"Tiebold","last_name":"Ledward"
-"id":55,"first_name":"Tessie","last_name":"Gerrens"
-"id":56,"first_name":"Claude","last_name":"Shimon"
-"id":57,"first_name":"Domeniga","last_name":"Demetr"
-"id":58,"first_name":"Teodoor","last_name":"Millership"
-"id":59,"first_name":"Benjamin","last_name":"Creasey"
-"id":60,"first_name":"Abramo","last_name":"Fennelly"
-"id":61,"first_name":"Sheila-kathryn","last_name":"Ensten"
-"id":62,"first_name":"Clemmy","last_name":"Farryann"
-"id":63,"first_name":"Kingston","last_name":"Cavanaugh"
-"id":64,"first_name":"Ivan","last_name":"Gentil"
-"id":65,"first_name":"Shellie","last_name":"Ianiello"
-"id":66,"first_name":"Lexie","last_name":"Conen"
-"id":67,"first_name":"Brittan","last_name":"Stirman"
-"id":68,"first_name":"Sandra","last_name":"Darwent"
-"id":69,"first_name":"Drona","last_name":"Treweke"
-"id":70,"first_name":"Tawsha","last_name":"Denizet"
-"id":71,"first_name":"Monte","last_name":"Hews"
-"id":72,"first_name":"Anny","last_name":"Kitley"
-"id":73,"first_name":"Conrad","last_name":"Tawse"
-"id":74,"first_name":"Belita","last_name":"Ickovic"
-"id":75,"first_name":"Elenore","last_name":"Francino"
-"id":76,"first_name":"Rutter","last_name":"Marrion"
-"id":77,"first_name":"Lorain","last_name":"Brim"
-"id":78,"first_name":"Margette","last_name":"Boichat"
-"id":79,"first_name":"Diann","last_name":"Yurkov"
-"id":80,"first_name":"Robinia","last_name":"Theis"
-"id":81,"first_name":"Pincas","last_name":"Brakespear"
-"id":82,"first_name":"Chery","last_name":"Jeffreys"
-"id":83,"first_name":"Clarissa","last_name":"Hovington"
-"id":84,"first_name":"Allister","last_name":"Lawes"
-"id":85,"first_name":"Karlotta","last_name":"Breukelman"
-"id":86,"first_name":"Vin","last_name":"Southerill"
-"id":87,"first_name":"Florette","last_name":"Beeres"
-"id":88,"first_name":"Leslie","last_name":"Redding"
-"id":89,"first_name":"Katalin","last_name":"Dover"
-"id":90,"first_name":"Arabella","last_name":"Cafferky"
-"id":91,"first_name":"Angelo","last_name":"Vause"
-"id":92,"first_name":"Hyacinthe","last_name":"Chestnutt"
-"id":93,"first_name":"Clyve","last_name":"Tracey"
-"id":94,"first_name":"Madelene","last_name":"Kilner"
-"id":95,"first_name":"Emelen","last_name":"Schanke"
-"id":96,"first_name":"Willamina","last_name":"Liddiatt"
-"id":97,"first_name":"Rebbecca","last_name":"Maffioni"
-"id":98,"first_name":"Eleanora","last_name":"Tallent"
-"id":99,"first_name":"Sibbie","last_name":"Corradini"
-"id":100,"first_name":"Grier","last_name":"Dymock"
-"id":101,"first_name":"Bobbe","last_name":"L'Episcopi"
+{"id":2,"first_name":"Kimberlyn","last_name":"Dymick"}
+{"id":3,"first_name":"Tracey","last_name":"Kochl"}
+{"id":4,"first_name":"Bronson","last_name":"Doige"}
+{"id":5,"first_name":"Con","last_name":"Staite"}
+{"id":6,"first_name":"Washington","last_name":"Mangenot"}
+{"id":7,"first_name":"Miquela","last_name":"Kilalea"}
+{"id":8,"first_name":"Winonah","last_name":"Paolucci"}
+{"id":9,"first_name":"Athene","last_name":"Hertwell"}
+{"id":10,"first_name":"Laurette","last_name":"Bower"}
+{"id":11,"first_name":"Kellen","last_name":"Janoschek"}
+{"id":12,"first_name":"Marris","last_name":"Mixhel"}
+{"id":13,"first_name":"Alfred","last_name":"Prendeville"}
+{"id":14,"first_name":"Mallory","last_name":"Weavers"}
+{"id":15,"first_name":"Zelig","last_name":"Gozzard"}
+{"id":16,"first_name":"Fairleigh","last_name":"Carwithim"}
+{"id":17,"first_name":"Ebony","last_name":"Twelves"}
+{"id":18,"first_name":"Dalis","last_name":"Keyworth"}
+{"id":19,"first_name":"Tybi","last_name":"Trevino"}
+{"id":20,"first_name":"Kordula","last_name":"Alexander"}
+{"id":21,"first_name":"Pauli","last_name":"Rowe"}
+{"id":22,"first_name":"Meridith","last_name":"Osgar"}
+{"id":23,"first_name":"Brady","last_name":"Swan"}
+{"id":24,"first_name":"Rutter","last_name":"Cardow"}
+{"id":25,"first_name":"Hilda","last_name":"Huggin"}
+{"id":26,"first_name":"Pennie","last_name":"Cleare"}
+{"id":27,"first_name":"Natty","last_name":"Rivard"}
+{"id":28,"first_name":"Pierce","last_name":"Stickells"}
+{"id":29,"first_name":"Dulsea","last_name":"Raybould"}
+{"id":30,"first_name":"Thibaud","last_name":"Harden"}
+{"id":31,"first_name":"Costanza","last_name":"Ledward"}
+{"id":32,"first_name":"Goober","last_name":"Doumic"}
+{"id":33,"first_name":"Lettie","last_name":"Varty"}
+{"id":34,"first_name":"Corabelle","last_name":"Barkus"}
+{"id":35,"first_name":"Delila","last_name":"Moloney"}
+{"id":36,"first_name":"Waylan","last_name":"Munnings"}
+{"id":37,"first_name":"Alfred","last_name":"Hue"}
+{"id":38,"first_name":"Maude","last_name":"Beech"}
+{"id":39,"first_name":"Cosme","last_name":"Herrero"}
+{"id":40,"first_name":"Erinna","last_name":"Boss"}
+{"id":41,"first_name":"Karole","last_name":"Amps"}
+{"id":42,"first_name":"Bethanne","last_name":"Kollach"}
+{"id":43,"first_name":"Darnall","last_name":"Boshers"}
+{"id":44,"first_name":"Kele","last_name":"Watkinson"}
+{"id":45,"first_name":"Giusto","last_name":"Grinov"}
+{"id":46,"first_name":"Susan","last_name":"Joinson"}
+{"id":47,"first_name":"Hoyt","last_name":"Wasbrough"}
+{"id":48,"first_name":"Ave","last_name":"Tesauro"}
+{"id":49,"first_name":"Charlie","last_name":"Kobsch"}
+{"id":50,"first_name":"Daniella","last_name":"Dunbobbin"}
+{"id":51,"first_name":"Walliw","last_name":"Mathewson"}
+{"id":52,"first_name":"Godiva","last_name":"Rielly"}
+{"id":53,"first_name":"Wait","last_name":"Hessel"}
+{"id":54,"first_name":"Tiebold","last_name":"Ledward"}
+{"id":55,"first_name":"Tessie","last_name":"Gerrens"}
+{"id":56,"first_name":"Claude","last_name":"Shimon"}
+{"id":57,"first_name":"Domeniga","last_name":"Demetr"}
+{"id":58,"first_name":"Teodoor","last_name":"Millership"}
+{"id":59,"first_name":"Benjamin","last_name":"Creasey"}
+{"id":60,"first_name":"Abramo","last_name":"Fennelly"}
+{"id":61,"first_name":"Sheila-kathryn","last_name":"Ensten"}
+{"id":62,"first_name":"Clemmy","last_name":"Farryann"}
+{"id":63,"first_name":"Kingston","last_name":"Cavanaugh"}
+{"id":64,"first_name":"Ivan","last_name":"Gentil"}
+{"id":65,"first_name":"Shellie","last_name":"Ianiello"}
+{"id":66,"first_name":"Lexie","last_name":"Conen"}
+{"id":67,"first_name":"Brittan","last_name":"Stirman"}
+{"id":68,"first_name":"Sandra","last_name":"Darwent"}
+{"id":69,"first_name":"Drona","last_name":"Treweke"}
+{"id":70,"first_name":"Tawsha","last_name":"Denizet"}
+{"id":71,"first_name":"Monte","last_name":"Hews"}
+{"id":72,"first_name":"Anny","last_name":"Kitley"}
+{"id":73,"first_name":"Conrad","last_name":"Tawse"}
+{"id":74,"first_name":"Belita","last_name":"Ickovic"}
+{"id":75,"first_name":"Elenore","last_name":"Francino"}
+{"id":76,"first_name":"Rutter","last_name":"Marrion"}
+{"id":77,"first_name":"Lorain","last_name":"Brim"}
+{"id":78,"first_name":"Margette","last_name":"Boichat"}
+{"id":79,"first_name":"Diann","last_name":"Yurkov"}
+{"id":80,"first_name":"Robinia","last_name":"Theis"}
+{"id":81,"first_name":"Pincas","last_name":"Brakespear"}
+{"id":82,"first_name":"Chery","last_name":"Jeffreys"}
+{"id":83,"first_name":"Clarissa","last_name":"Hovington"}
+{"id":84,"first_name":"Allister","last_name":"Lawes"}
+{"id":85,"first_name":"Karlotta","last_name":"Breukelman"}
+{"id":86,"first_name":"Vin","last_name":"Southerill"}
+{"id":87,"first_name":"Florette","last_name":"Beeres"}
+{"id":88,"first_name":"Leslie","last_name":"Redding"}
+{"id":89,"first_name":"Katalin","last_name":"Dover"}
+{"id":90,"first_name":"Arabella","last_name":"Cafferky"}
+{"id":91,"first_name":"Angelo","last_name":"Vause"}
+{"id":92,"first_name":"Hyacinthe","last_name":"Chestnutt"}
+{"id":93,"first_name":"Clyve","last_name":"Tracey"}
+{"id":94,"first_name":"Madelene","last_name":"Kilner"}
+{"id":95,"first_name":"Emelen","last_name":"Schanke"}
+{"id":96,"first_name":"Willamina","last_name":"Liddiatt"}
+{"id":97,"first_name":"Rebbecca","last_name":"Maffioni"}
+{"id":98,"first_name":"Eleanora","last_name":"Tallent"}
+{"id":99,"first_name":"Sibbie","last_name":"Corradini"}
+{"id":100,"first_name":"Grier","last_name":"Dymock"}
+{"id":101,"first_name":"Bobbe","last_name":"L'Episcopi"}
 
 From Screeners Topic:
-"id":102,"first_name":"Osmund","last_name":"Aupol"
-"id":103,"first_name":"Dulcea","last_name":"Lawtey"
-"id":104,"first_name":"Mersey","last_name":"Ruzic"
-"id":105,"first_name":"Bordy","last_name":"Banasik"
-"id":106,"first_name":"Lesley","last_name":"Nerney"
-"id":107,"first_name":"Wald","last_name":"Furmenger"
-"id":108,"first_name":"Quillan","last_name":"Sends"
-"id":109,"first_name":"Blayne","last_name":"Adriaan"
-"id":110,"first_name":"Beatrice","last_name":"Thripp"
-"id":111,"first_name":"Talia","last_name":"Crown"
-"id":112,"first_name":"Renaud","last_name":"De Bischop"
-"id":113,"first_name":"Shannan","last_name":"Prew"
-"id":114,"first_name":"Chrissy","last_name":"Bolstridge"
-"id":115,"first_name":"Bancroft","last_name":"Ilchuk"
-"id":116,"first_name":"Sibelle","last_name":"Wyeth"
-"id":117,"first_name":"Gilda","last_name":"Drohun"
-"id":118,"first_name":"Sibby","last_name":"Rubroe"
-"id":119,"first_name":"Stacey","last_name":"Glastonbury"
-"id":120,"first_name":"Harwell","last_name":"Culpan"
-"id":121,"first_name":"Holden","last_name":"Bullivent"
-"id":122,"first_name":"Wit","last_name":"Culver"
-"id":123,"first_name":"Cris","last_name":"McGillacoell"
-"id":124,"first_name":"Lemuel","last_name":"Mapledoore"
-"id":125,"first_name":"Donal","last_name":"Arnot"
-"id":126,"first_name":"Jillie","last_name":"Goodhand"
-"id":127,"first_name":"Grove","last_name":"Guly"
-"id":128,"first_name":"Giacomo","last_name":"Winterbourne"
-"id":129,"first_name":"Court","last_name":"Scorton"
-"id":130,"first_name":"Darrell","last_name":"Piecha"
-"id":131,"first_name":"Fayette","last_name":"Hynes"
-"id":132,"first_name":"Tallou","last_name":"Yeatman"
-"id":133,"first_name":"Wendie","last_name":"Thoresby"
-"id":134,"first_name":"Nydia","last_name":"Trawin"
-"id":135,"first_name":"Lin","last_name":"Ridpath"
-"id":136,"first_name":"Avivah","last_name":"Peck"
-"id":137,"first_name":"Garik","last_name":"Filintsev"
-"id":138,"first_name":"Stillman","last_name":"Denkin"
-"id":139,"first_name":"Kareem","last_name":"Beddo"
-"id":140,"first_name":"Erminia","last_name":"Simmon"
-"id":141,"first_name":"Gerek","last_name":"Deeney"
-"id":142,"first_name":"Inglebert","last_name":"Kittles"
-"id":143,"first_name":"Laurianne","last_name":"Nizet"
-"id":144,"first_name":"Val","last_name":"Curl"
-"id":145,"first_name":"Melisa","last_name":"Clare"
-"id":146,"first_name":"Berne","last_name":"Hains"
-"id":147,"first_name":"Mickey","last_name":"Schrinel"
-"id":148,"first_name":"Saunders","last_name":"Claus"
-"id":149,"first_name":"Betsey","last_name":"Kopta"
-"id":150,"first_name":"Diane","last_name":"Boullin"
-"id":151,"first_name":"Miranda","last_name":"Harome"
-"id":152,"first_name":"Lilly","last_name":"Faiers"
-"id":153,"first_name":"Barbette","last_name":"Cassells"
-"id":154,"first_name":"Adriena","last_name":"Dyball"
-"id":155,"first_name":"Amalie","last_name":"O'Cannavan"
-"id":156,"first_name":"Henrie","last_name":"Hooke"
-"id":157,"first_name":"Morly","last_name":"Caswill"
-"id":158,"first_name":"Hy","last_name":"McKechnie"
-"id":159,"first_name":"Melessa","last_name":"Abeau"
-"id":160,"first_name":"Jerrome","last_name":"Ducker"
-"id":161,"first_name":"Cymbre","last_name":"Cherry"
-"id":162,"first_name":"Marne","last_name":"Coneley"
-"id":163,"first_name":"Bari","last_name":"Edgell"
-"id":164,"first_name":"Shana","last_name":"Copestick"
-"id":165,"first_name":"Tabby","last_name":"Laven"
-"id":166,"first_name":"Verina","last_name":"Seys"
-"id":167,"first_name":"Shaw","last_name":"Meggison"
-"id":168,"first_name":"Cairistiona","last_name":"Currier"
-"id":169,"first_name":"Larina","last_name":"Strase"
-"id":170,"first_name":"Monte","last_name":"Woodstock"
-"id":171,"first_name":"Connor","last_name":"Bjerkan"
-"id":172,"first_name":"Audrie","last_name":"Rown"
-"id":173,"first_name":"Beverie","last_name":"Vedmore"
-"id":174,"first_name":"Jock","last_name":"Perch"
-"id":175,"first_name":"Bobbi","last_name":"Buckie"
-"id":176,"first_name":"Moselle","last_name":"Loxdale"
-"id":177,"first_name":"Ronald","last_name":"Kestin"
-"id":178,"first_name":"Art","last_name":"Ourry"
-"id":179,"first_name":"Aldridge","last_name":"Ivakhin"
-"id":180,"first_name":"Everard","last_name":"Risen"
-"id":181,"first_name":"Willy","last_name":"Mandre"
-"id":182,"first_name":"Nancie","last_name":"Bratch"
-"id":183,"first_name":"Janaye","last_name":"Scanes"
-"id":184,"first_name":"Richy","last_name":"Duham"
-"id":185,"first_name":"Feliza","last_name":"Ashtonhurst"
-"id":186,"first_name":"Eolanda","last_name":"McHan"
-"id":187,"first_name":"Clari","last_name":"Brunroth"
-"id":188,"first_name":"Vidovic","last_name":"Lundberg"
-"id":189,"first_name":"Free","last_name":"Negus"
-"id":190,"first_name":"Geoff","last_name":"Casacchia"
-"id":191,"first_name":"Delmar","last_name":"Mulvenna"
-"id":192,"first_name":"Gussi","last_name":"Wilbraham"
-"id":193,"first_name":"Sherman","last_name":"Leopold"
-"id":194,"first_name":"Ado","last_name":"Duncanson"
-"id":195,"first_name":"Craggie","last_name":"Kempstone"
-"id":196,"first_name":"Selina","last_name":"Reims"
-"id":197,"first_name":"Marilin","last_name":"Selwin"
-"id":198,"first_name":"Ki","last_name":"Romagnosi"
-"id":199,"first_name":"Henriette","last_name":"McGregor"
-"id":200,"first_name":"Tracey","last_name":"Plaskitt"
-"id":201,"first_name":"Evey","last_name":"Gunn"
+{"id":102,"first_name":"Osmund","last_name":"Aupol"}
+{"id":103,"first_name":"Dulcea","last_name":"Lawtey"}
+{"id":104,"first_name":"Mersey","last_name":"Ruzic"}
+{"id":105,"first_name":"Bordy","last_name":"Banasik"}
+{"id":106,"first_name":"Lesley","last_name":"Nerney"}
+{"id":107,"first_name":"Wald","last_name":"Furmenger"}
+{"id":108,"first_name":"Quillan","last_name":"Sends"}
+{"id":109,"first_name":"Blayne","last_name":"Adriaan"}
+{"id":110,"first_name":"Beatrice","last_name":"Thripp"}
+{"id":111,"first_name":"Talia","last_name":"Crown"}
+{"id":112,"first_name":"Renaud","last_name":"De Bischop"}
+{"id":113,"first_name":"Shannan","last_name":"Prew"}
+{"id":114,"first_name":"Chrissy","last_name":"Bolstridge"}
+{"id":115,"first_name":"Bancroft","last_name":"Ilchuk"}
+{"id":116,"first_name":"Sibelle","last_name":"Wyeth"}
+{"id":117,"first_name":"Gilda","last_name":"Drohun"}
+{"id":118,"first_name":"Sibby","last_name":"Rubroe"}
+{"id":119,"first_name":"Stacey","last_name":"Glastonbury"}
+{"id":120,"first_name":"Harwell","last_name":"Culpan"}
+{"id":121,"first_name":"Holden","last_name":"Bullivent"}
+{"id":122,"first_name":"Wit","last_name":"Culver"}
+{"id":123,"first_name":"Cris","last_name":"McGillacoell"}
+{"id":124,"first_name":"Lemuel","last_name":"Mapledoore"}
+{"id":125,"first_name":"Donal","last_name":"Arnot"}
+{"id":126,"first_name":"Jillie","last_name":"Goodhand"}
+{"id":127,"first_name":"Grove","last_name":"Guly"}
+{"id":128,"first_name":"Giacomo","last_name":"Winterbourne"}
+{"id":129,"first_name":"Court","last_name":"Scorton"}
+{"id":130,"first_name":"Darrell","last_name":"Piecha"}
+{"id":131,"first_name":"Fayette","last_name":"Hynes"}
+{"id":132,"first_name":"Tallou","last_name":"Yeatman"}
+{"id":133,"first_name":"Wendie","last_name":"Thoresby"}
+{"id":134,"first_name":"Nydia","last_name":"Trawin"}
+{"id":135,"first_name":"Lin","last_name":"Ridpath"}
+{"id":136,"first_name":"Avivah","last_name":"Peck"}
+{"id":137,"first_name":"Garik","last_name":"Filintsev"}
+{"id":138,"first_name":"Stillman","last_name":"Denkin"}
+{"id":139,"first_name":"Kareem","last_name":"Beddo"}
+{"id":140,"first_name":"Erminia","last_name":"Simmon"}
+{"id":141,"first_name":"Gerek","last_name":"Deeney"}
+{"id":142,"first_name":"Inglebert","last_name":"Kittles"}
+{"id":143,"first_name":"Laurianne","last_name":"Nizet"}
+{"id":144,"first_name":"Val","last_name":"Curl"}
+{"id":145,"first_name":"Melisa","last_name":"Clare"}
+{"id":146,"first_name":"Berne","last_name":"Hains"}
+{"id":147,"first_name":"Mickey","last_name":"Schrinel"}
+{"id":148,"first_name":"Saunders","last_name":"Claus"}
+{"id":149,"first_name":"Betsey","last_name":"Kopta"}
+{"id":150,"first_name":"Diane","last_name":"Boullin"}
+{"id":151,"first_name":"Miranda","last_name":"Harome"}
+{"id":152,"first_name":"Lilly","last_name":"Faiers"}
+{"id":153,"first_name":"Barbette","last_name":"Cassells"}
+{"id":154,"first_name":"Adriena","last_name":"Dyball"}
+{"id":155,"first_name":"Amalie","last_name":"O'Cannavan"}
+{"id":156,"first_name":"Henrie","last_name":"Hooke"}
+{"id":157,"first_name":"Morly","last_name":"Caswill"}
+{"id":158,"first_name":"Hy","last_name":"McKechnie"}
+{"id":159,"first_name":"Melessa","last_name":"Abeau"}
+{"id":160,"first_name":"Jerrome","last_name":"Ducker"}
+{"id":161,"first_name":"Cymbre","last_name":"Cherry"}
+{"id":162,"first_name":"Marne","last_name":"Coneley"}
+{"id":163,"first_name":"Bari","last_name":"Edgell"}
+{"id":164,"first_name":"Shana","last_name":"Copestick"}
+{"id":165,"first_name":"Tabby","last_name":"Laven"}
+{"id":166,"first_name":"Verina","last_name":"Seys"}
+{"id":167,"first_name":"Shaw","last_name":"Meggison"}
+{"id":168,"first_name":"Cairistiona","last_name":"Currier"}
+{"id":169,"first_name":"Larina","last_name":"Strase"}
+{"id":170,"first_name":"Monte","last_name":"Woodstock"}
+{"id":171,"first_name":"Connor","last_name":"Bjerkan"}
+{"id":172,"first_name":"Audrie","last_name":"Rown"}
+{"id":173,"first_name":"Beverie","last_name":"Vedmore"}
+{"id":174,"first_name":"Jock","last_name":"Perch"}
+{"id":175,"first_name":"Bobbi","last_name":"Buckie"}
+{"id":176,"first_name":"Moselle","last_name":"Loxdale"}
+{"id":177,"first_name":"Ronald","last_name":"Kestin"}
+{"id":178,"first_name":"Art","last_name":"Ourry"}
+{"id":179,"first_name":"Aldridge","last_name":"Ivakhin"}
+{"id":180,"first_name":"Everard","last_name":"Risen"}
+{"id":181,"first_name":"Willy","last_name":"Mandre"}
+{"id":182,"first_name":"Nancie","last_name":"Bratch"}
+{"id":183,"first_name":"Janaye","last_name":"Scanes"}
+{"id":184,"first_name":"Richy","last_name":"Duham"}
+{"id":185,"first_name":"Feliza","last_name":"Ashtonhurst"}
+{"id":186,"first_name":"Eolanda","last_name":"McHan"}
+{"id":187,"first_name":"Clari","last_name":"Brunroth"}
+{"id":188,"first_name":"Vidovic","last_name":"Lundberg"}
+{"id":189,"first_name":"Free","last_name":"Negus"}
+{"id":190,"first_name":"Geoff","last_name":"Casacchia"}
+{"id":191,"first_name":"Delmar","last_name":"Mulvenna"}
+{"id":192,"first_name":"Gussi","last_name":"Wilbraham"}
+{"id":193,"first_name":"Sherman","last_name":"Leopold"}
+{"id":194,"first_name":"Ado","last_name":"Duncanson"}
+{"id":195,"first_name":"Craggie","last_name":"Kempstone"}
+{"id":196,"first_name":"Selina","last_name":"Reims"}
+{"id":197,"first_name":"Marilin","last_name":"Selwin"}
+{"id":198,"first_name":"Ki","last_name":"Romagnosi"}
+{"id":199,"first_name":"Henriette","last_name":"McGregor"}
+{"id":200,"first_name":"Tracey","last_name":"Plaskitt"}
+{"id":201,"first_name":"Evey","last_name":"Gunn"}
 
 From Qualified_Lead Topic:
-"id":201,"first_name":"Piggy","last_name":"Dallewater","university":"Kun Shan University","major":"Biomedical Engineering","email":"pdallewater0@live.com","home_state":"Illinois"
-"id":202,"first_name":"Doloritas","last_name":"Nutton","university":"Kibi International University","major":"Informatics","email":"dnutton1@cocolog-nifty.com","home_state":"Texas"
-"id":203,"first_name":"Daphne","last_name":"Herreros","university":"Universitas Slamet Riyadi Surakarta","major":"Telecommunication","email":"dherreros2@apache.org","home_state":"Arizona"
-"id":204,"first_name":"Josepha","last_name":"Turneaux","university":"Bushehr University of Medical Sciences","major":"Analytics","email":"jturneaux3@tripadvisor.com","home_state":"Florida"
-"id":205,"first_name":"Mort","last_name":"Rowland","university":"University of Michigan - Dearborn","major":"Human Resources","email":"mrowland4@tinyurl.com","home_state":"Texas"
-"id":206,"first_name":"Maxim","last_name":"Finding","university":"Ecole Supérieure de Physique et de Chimie Industrielles","major":"Applied Science","email":"mfinding5@trellian.com","home_state":"Texas"
-"id":207,"first_name":"Eugenie","last_name":"Clue","university":"Mokpo National University","major":"Psychology","email":"eclue6@phpbb.com","home_state":"Ohio"
-"id":208,"first_name":"Margaretta","last_name":"Brassington","university":"Universidad Autónoma de Las Américas","major":"French","email":"mbrassington7@springer.com","home_state":"North Carolina"
-"id":209,"first_name":"Evangelin","last_name":"Elijahu","university":"Islamic Azad University, Falavarjan ","major":"Accounting","email":"eelijahu8@desdev.cn","home_state":"Washington"
-"id":210,"first_name":"Bamby","last_name":"Dow","university":"Sabaragamuwa University of Sri Lanka","major":"Public Relations","email":"bdow9@zdnet.com","home_state":"Florida"
+{"id":201,"first_name":"Piggy","last_name":"Dallewater","university":"Kun Shan University","major":"Biomedical Engineering","email":"pdallewater0@live.com","home_state":"Illinois"}
+{"id":202,"first_name":"Doloritas","last_name":"Nutton","university":"Kibi International University","major":"Informatics","email":"dnutton1@cocolog-nifty.com","home_state":"Texas"}
+{"id":203,"first_name":"Daphne","last_name":"Herreros","university":"Universitas Slamet Riyadi Surakarta","major":"Telecommunication","email":"dherreros2@apache.org","home_state":"Arizona"}
+{"id":204,"first_name":"Josepha","last_name":"Turneaux","university":"Bushehr University of Medical Sciences","major":"Analytics","email":"jturneaux3@tripadvisor.com","home_state":"Florida"}
+{"id":205,"first_name":"Mort","last_name":"Rowland","university":"University of Michigan - Dearborn","major":"Human Resources","email":"mrowland4@tinyurl.com","home_state":"Texas"}
+{"id":206,"first_name":"Maxim","last_name":"Finding","university":"Ecole Supérieure de Physique et de Chimie Industrielles","major":"Applied Science","email":"mfinding5@trellian.com","home_state":"Texas"}
+{"id":207,"first_name":"Eugenie","last_name":"Clue","university":"Mokpo National University","major":"Psychology","email":"eclue6@phpbb.com","home_state":"Ohio"}
+{"id":208,"first_name":"Margaretta","last_name":"Brassington","university":"Universidad Autónoma de Las Américas","major":"French","email":"mbrassington7@springer.com","home_state":"North Carolina"}
+{"id":209,"first_name":"Evangelin","last_name":"Elijahu","university":"Islamic Azad University, Falavarjan ","major":"Accounting","email":"eelijahu8@desdev.cn","home_state":"Washington"}
+{"id":210,"first_name":"Bamby","last_name":"Dow","university":"Sabaragamuwa University of Sri Lanka","major":"Public Relations","email":"bdow9@zdnet.com","home_state":"Florida"}
 
 From Contact_Attempts Topic:
-"recruiter_id":46,"ql_id":201,"contact_date":"9/12/2021","start_time":"2021-12-09 10:19:01 UTC","end_time":"2021-12-12 10:19:01 UTC","contact_method":"phone"
-"recruiter_id":3,"ql_id":202,"contact_date":"1/13/2021","start_time":"2021-12-09 06:43:21 UTC","end_time":"2021-12-12 06:43:21 UTC","contact_method":"sms"
-"recruiter_id":3,"ql_id":202,"contact_date":"4/28/2021","start_time":"2021-12-09 18:33:05 UTC","end_time":"2021-12-12 18:33:05 UTC","contact_method":"phone"
-"recruiter_id":64,"ql_id":203,"contact_date":"9/23/2021","start_time":"2021-12-09 14:54:16 UTC","end_time":"2021-12-12 14:54:16 UTC","contact_method":"sms"
-"recruiter_id":22,"ql_id":204,"contact_date":"4/13/2021","start_time":"2021-12-09 10:49:53 UTC","end_time":"2021-12-12 10:49:53 UTC","contact_method":"sms"
-"recruiter_id":7,"ql_id":205,"contact_date":"1/23/2021","start_time":"2021-12-09 05:25:28 UTC","end_time":"2021-12-12 05:25:28 UTC","contact_method":"phone"
-"recruiter_id":42,"ql_id":207,"contact_date":"9/7/2021","start_time":"2021-12-09 15:49:29 UTC","end_time":"2021-12-12 15:49:29 UTC","contact_method":"email"
-"recruiter_id":6,"ql_id":208,"contact_date":"9/24/2021","start_time":"2021-12-09 00:27:42 UTC","end_time":"2021-12-12 00:27:42 UTC","contact_method":"email"
-"recruiter_id":84,"ql_id":209,"contact_date":"12/18/2020","start_time":"2021-12-09 21:39:48 UTC","end_time":"2021-12-12 21:39:48 UTC","contact_method":"sms"
-"recruiter_id":84,"ql_id":209,"contact_date":"5/16/2021","start_time":"2021-12-09 06:23:01 UTC","end_time":"2021-12-12 06:23:01 UTC","contact_method":"phone"
-"recruiter_id":18,"ql_id":210,"contact_date":"8/28/2021","start_time":"2021-12-09 14:46:52 UTC","end_time":"2021-12-12 14:46:52 UTC","contact_method":"sms"
+{"recruiter_id":46,"ql_id":201,"contact_date":"9/12/2021","start_time":"2021-12-09 10:19:01 UTC","end_time":"2021-12-12 10:19:01 UTC","contact_method":"phone"}
+{"recruiter_id":3,"ql_id":202,"contact_date":"1/13/2021","start_time":"2021-12-09 06:43:21 UTC","end_time":"2021-12-12 06:43:21 UTC","contact_method":"sms"}
+{"recruiter_id":3,"ql_id":202,"contact_date":"4/28/2021","start_time":"2021-12-09 18:33:05 UTC","end_time":"2021-12-12 18:33:05 UTC","contact_method":"phone"}
+{"recruiter_id":64,"ql_id":203,"contact_date":"9/23/2021","start_time":"2021-12-09 14:54:16 UTC","end_time":"2021-12-12 14:54:16 UTC","contact_method":"sms"}
+{"recruiter_id":22,"ql_id":204,"contact_date":"4/13/2021","start_time":"2021-12-09 10:49:53 UTC","end_time":"2021-12-12 10:49:53 UTC","contact_method":"sms"}
+{"recruiter_id":7,"ql_id":205,"contact_date":"1/23/2021","start_time":"2021-12-09 05:25:28 UTC","end_time":"2021-12-12 05:25:28 UTC","contact_method":"phone"}
+{"recruiter_id":42,"ql_id":207,"contact_date":"9/7/2021","start_time":"2021-12-09 15:49:29 UTC","end_time":"2021-12-12 15:49:29 UTC","contact_method":"email"}
+{"recruiter_id":6,"ql_id":208,"contact_date":"9/24/2021","start_time":"2021-12-09 00:27:42 UTC","end_time":"2021-12-12 00:27:42 UTC","contact_method":"email"}
+{"recruiter_id":84,"ql_id":209,"contact_date":"12/18/2020","start_time":"2021-12-09 21:39:48 UTC","end_time":"2021-12-12 21:39:48 UTC","contact_method":"sms"}
+{"recruiter_id":84,"ql_id":209,"contact_date":"5/16/2021","start_time":"2021-12-09 06:23:01 UTC","end_time":"2021-12-12 06:23:01 UTC","contact_method":"phone"}
+{"recruiter_id":18,"ql_id":210,"contact_date":"8/28/2021","start_time":"2021-12-09 14:46:52 UTC","end_time":"2021-12-12 14:46:52 UTC","contact_method":"sms"}
 
 
 From Screening Topic:
-"screener_id":186,"ql_id":201,"screening_date":"10/27/2021","start_time":"2021-12-09 02:35:06 UTC","end_time":"2021-12-09 03:35:06 UTC","screening_type":"Standard","question_number":20,"question_accepted":14
-"screener_id":157,"ql_id":202,"screening_date":"5/22/2021","start_time":"2021-12-09 12:02:31 UTC","end_time":"2021-12-09 13:02:31 UTC","screening_type":"Spark","question_number":20,"question_accepted":17
-"screener_id":170,"ql_id":203,"screening_date":"12/5/2020","start_time":"2021-12-09 07:44:30 UTC","end_time":"2021-12-09 08:44:30 UTC","screening_type":"Business Analyst","question_number":20,"question_accepted":10
-"screener_id":129,"ql_id":204,"screening_date":"1/6/2021","start_time":"2021-12-09 15:43:52 UTC","end_time":"2021-12-09 16:43:52 UTC","screening_type":"Business Analyst","question_number":20,"question_accepted":12
-"screener_id":169,"ql_id":205,"screening_date":"8/15/2021","start_time":"2021-12-09 23:28:58 UTC","end_time":"2021-12-10 00:28:58 UTC","screening_type":"Standard","question_number":20,"question_accepted":13
-"screener_id":189,"ql_id":207,"screening_date":"3/22/2021","start_time":"2021-12-09 07:47:06 UTC","end_time":"2021-12-09 08:47:06 UTC","screening_type":"Business Analyst","question_number":20,"question_accepted":4
-"screener_id":189,"ql_id":207,"screening_date":"7/21/2021","start_time":"2021-12-09 10:50:06 UTC","end_time":"2021-12-09 11:50:06 UTC","screening_type":"Business Analyst","question_number":20,"question_accepted":17
-"screener_id":118,"ql_id":208,"screening_date":"4/16/2021","start_time":"2021-12-09 08:22:56 UTC","end_time":"2021-12-09 09:22:56 UTC","screening_type":"Business Analyst","question_number":20,"question_accepted":6
-"screener_id":118,"ql_id":208,"screening_date":"6/3/2021","start_time":"2021-12-09 03:29:09 UTC","end_time":"2021-12-09 04:29:09 UTC","screening_type":"Business Analyst","question_number":20,"question_accepted":5
-"screener_id":115,"ql_id":210,"screening_date":"4/6/2021","start_time":"2021-12-09 17:53:14 UTC","end_time":"2021-12-09 18:53:14 UTC","screening_type":"Business Analyst","question_number":20,"question_accepted":16
-"screener_id":115,"ql_id":210,"screening_date":"4/15/2021","start_time":"2021-12-09 15:28:53 UTC","end_time":"2021-12-09 16:28:53 UTC","screening_type":"Standard","question_number":20,"question_accepted":17
+{"screener_id":186,"ql_id":201,"screening_date":"10/27/2021","start_time":"2021-12-09 02:35:06 UTC","end_time":"2021-12-09 03:35:06 UTC","screening_type":"Standard","question_number":20,"question_accepted":14}
+{"screener_id":157,"ql_id":202,"screening_date":"5/22/2021","start_time":"2021-12-09 12:02:31 UTC","end_time":"2021-12-09 13:02:31 UTC","screening_type":"Spark","question_number":20,"question_accepted":17}
+{"screener_id":170,"ql_id":203,"screening_date":"12/5/2020","start_time":"2021-12-09 07:44:30 UTC","end_time":"2021-12-09 08:44:30 UTC","screening_type":"Business Analyst","question_number":20,"question_accepted":10}
+{"screener_id":129,"ql_id":204,"screening_date":"1/6/2021","start_time":"2021-12-09 15:43:52 UTC","end_time":"2021-12-09 16:43:52 UTC","screening_type":"Business Analyst","question_number":20,"question_accepted":12}
+{"screener_id":169,"ql_id":205,"screening_date":"8/15/2021","start_time":"2021-12-09 23:28:58 UTC","end_time":"2021-12-10 00:28:58 UTC","screening_type":"Standard","question_number":20,"question_accepted":13}
+{"screener_id":189,"ql_id":207,"screening_date":"3/22/2021","start_time":"2021-12-09 07:47:06 UTC","end_time":"2021-12-09 08:47:06 UTC","screening_type":"Business Analyst","question_number":20,"question_accepted":4}
+{"screener_id":189,"ql_id":207,"screening_date":"7/21/2021","start_time":"2021-12-09 10:50:06 UTC","end_time":"2021-12-09 11:50:06 UTC","screening_type":"Business Analyst","question_number":20,"question_accepted":17}
+{"screener_id":118,"ql_id":208,"screening_date":"4/16/2021","start_time":"2021-12-09 08:22:56 UTC","end_time":"2021-12-09 09:22:56 UTC","screening_type":"Business Analyst","question_number":20,"question_accepted":6}
+{"screener_id":118,"ql_id":208,"screening_date":"6/3/2021","start_time":"2021-12-09 03:29:09 UTC","end_time":"2021-12-09 04:29:09 UTC","screening_type":"Business Analyst","question_number":20,"question_accepted":5}
+{"screener_id":115,"ql_id":210,"screening_date":"4/6/2021","start_time":"2021-12-09 17:53:14 UTC","end_time":"2021-12-09 18:53:14 UTC","screening_type":"Business Analyst","question_number":20,"question_accepted":16}
+{"screener_id":115,"ql_id":210,"screening_date":"4/15/2021","start_time":"2021-12-09 15:28:53 UTC","end_time":"2021-12-09 16:28:53 UTC","screening_type":"Standard","question_number":20,"question_accepted":17}
 
 From Offers Topic:
-"screener_id":186,"recruiter_id":46,"ql_id":201,"offer_extended_date":"2021-07-27 22:37:42 UTC","offer_action_date":"2021-07-29 22:37:42 UTC","contact_method":"sms","offer_action":"Accept"
-"screener_id":186,"recruiter_id":46,"ql_id":201,"offer_extended_date":"2021-10-06 16:05:55 UTC","offer_action_date":"2021-10-09 16:05:55 UTC","contact_method":"sms","offer_action":"Reject"
-"screener_id":157,"recruiter_id":3,"ql_id":202,"offer_extended_date":"2021-08-07 08:33:21 UTC","offer_action_date":"2021-08-07 08:33:21 UTC","contact_method":"sms","offer_action":"Reject"
-"screener_id":170,"recruiter_id":64,"ql_id":203,"offer_extended_date":"2021-03-17 09:39:16 UTC","offer_action_date":"2021-03-25 09:39:16 UTC","contact_method":"email","offer_action":"Accept"
-"screener_id":129,"recruiter_id":22,"ql_id":204,"offer_extended_date":"2021-10-30 04:27:10 UTC","offer_action_date":"2021-11-01 04:27:10 UTC","contact_method":"email","offer_action":"Accept"
-"screener_id":118,"recruiter_id":6,"ql_id":208,"offer_extended_date":"2021-11-01 16:07:09 UTC","offer_action_date":"2021-11-09 16:07:09 UTC","contact_method":"phone","offer_action":"Accept"
-"screener_id":115,"recruiter_id":18,"ql_id":210,"offer_extended_date":"2021-11-02 00:28:30 UTC","offer_action_date":"2021-11-03 00:28:30 UTC","contact_method":"phone","offer_action":"Accept"
-"screener_id":115,"recruiter_id":18,"ql_id":210,"offer_extended_date":"2021-01-29 06:08:12 UTC","offer_action_date":"2021-02-03 06:08:12 UTC","contact_method":"phone","offer_action":"Delay"
+{"screener_id":186,"recruiter_id":46,"ql_id":201,"offer_extended_date":"2021-07-27 22:37:42 UTC","offer_action_date":"2021-07-29 22:37:42 UTC","contact_method":"sms","offer_action":"Accept"}
+{"screener_id":186,"recruiter_id":46,"ql_id":201,"offer_extended_date":"2021-10-06 16:05:55 UTC","offer_action_date":"2021-10-09 16:05:55 UTC","contact_method":"sms","offer_action":"Reject"}
+{"screener_id":157,"recruiter_id":3,"ql_id":202,"offer_extended_date":"2021-08-07 08:33:21 UTC","offer_action_date":"2021-08-07 08:33:21 UTC","contact_method":"sms","offer_action":"Reject"}
+{"screener_id":170,"recruiter_id":64,"ql_id":203,"offer_extended_date":"2021-03-17 09:39:16 UTC","offer_action_date":"2021-03-25 09:39:16 UTC","contact_method":"email","offer_action":"Accept"}
+{"screener_id":129,"recruiter_id":22,"ql_id":204,"offer_extended_date":"2021-10-30 04:27:10 UTC","offer_action_date":"2021-11-01 04:27:10 UTC","contact_method":"email","offer_action":"Accept"}
+{"screener_id":118,"recruiter_id":6,"ql_id":208,"offer_extended_date":"2021-11-01 16:07:09 UTC","offer_action_date":"2021-11-09 16:07:09 UTC","contact_method":"phone","offer_action":"Accept"}
+{"screener_id":115,"recruiter_id":18,"ql_id":210,"offer_extended_date":"2021-11-02 00:28:30 UTC","offer_action_date":"2021-11-03 00:28:30 UTC","contact_method":"phone","offer_action":"Accept"}
+{"screener_id":115,"recruiter_id":18,"ql_id":210,"offer_extended_date":"2021-01-29 06:08:12 UTC","offer_action_date":"2021-02-03 06:08:12 UTC","contact_method":"phone","offer_action":"Delay"}
